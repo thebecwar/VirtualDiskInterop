@@ -1,0 +1,23 @@
+#pragma once
+
+using namespace System;
+
+namespace VirtualDiskInterop
+{
+	[Flags()]
+	public enum class DependentDiskFlags
+	{
+		None = DEPENDENT_DISK_FLAG_NONE,
+		MultipleBackingFiles = DEPENDENT_DISK_FLAG_MULT_BACKING_FILES,
+		FullyAllocated = DEPENDENT_DISK_FLAG_FULLY_ALLOCATED,
+		ReadOnly = DEPENDENT_DISK_FLAG_READ_ONLY,
+		Remote = DEPENDENT_DISK_FLAG_REMOTE,
+		SystemVolume = DEPENDENT_DISK_FLAG_SYSTEM_VOLUME,
+		SystemVolumeParend = DEPENDENT_DISK_FLAG_SYSTEM_VOLUME_PARENT,
+		Removable = DEPENDENT_DISK_FLAG_REMOVABLE,
+		NoDriveLetter = DEPENDENT_DISK_FLAG_NO_DRIVE_LETTER,
+		Parent = DEPENDENT_DISK_FLAG_PARENT,
+		NoHostDisk = DEPENDENT_DISK_FLAG_NO_HOST_DISK,
+		PermanentLifetime = DEPENDENT_DISK_FLAG_PERMANENT_LIFETIME
+	};
+}

@@ -1,0 +1,211 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{12CA605A-5D31-4CAC-9CC2-96840DA12F87}</ProjectGuid>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <Keyword>ManagedCProj</Keyword>
+    <RootNamespace>VirtualDiskInterop</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CLRSupport>true</CLRSupport>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CLRSupport>true</CLRSupport>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CLRSupport>true</CLRSupport>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CLRSupport>true</CLRSupport>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies />
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies />
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies />
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies />
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Enumerations\ApplySnapshotVhdsetFlags.h" />
+    <ClInclude Include="Enumerations\ApplySnapshotVhdsetVersions.h" />
+    <ClInclude Include="Enumerations\AttachVirtualDiskFlags.h" />
+    <ClInclude Include="Enumerations\AttachVirtualDiskVersions.h" />
+    <ClInclude Include="Enumerations\CompactVirtualDiskFlags.h" />
+    <ClInclude Include="Enumerations\CompactVirtualDiskVersions.h" />
+    <ClInclude Include="Enumerations\CreateVirtualDiskFlags.h" />
+    <ClInclude Include="Enumerations\CreateVirtualDiskVersions.h" />
+    <ClInclude Include="Enumerations\DeleteSnapshotVhdsetFlags.h" />
+    <ClInclude Include="Enumerations\DeleteSnapshotVhdsetVersions.h" />
+    <ClInclude Include="Enumerations\DependentDiskFlags.h" />
+    <ClInclude Include="Enumerations\DetachVirtualDiskFlags.h" />
+    <ClInclude Include="Enumerations\ExpandVirtualDiskFlags.h" />
+    <ClInclude Include="Enumerations\ExpandVirtualDiskVersions.h" />
+    <ClInclude Include="Enumerations\GetStorageDependencyFlags.h" />
+    <ClInclude Include="Enumerations\GetVirtualDiskInfoVersions.h" />
+    <ClInclude Include="Enumerations\MergeVirtualDiskFlags.h" />
+    <ClInclude Include="Enumerations\MergeVirtualDiskVersions.h" />
+    <ClInclude Include="Enumerations\MirrorVirtualDiskFlags.h" />
+    <ClInclude Include="Enumerations\MirrorVirtualDiskVersions.h" />
+    <ClInclude Include="Enumerations\ModifyVhdsetFlags.h" />
+    <ClInclude Include="Enumerations\ModifyVhdsetVersions.h" />
+    <ClInclude Include="Enumerations\OpenVirtualDiskFlags.h" />
+    <ClInclude Include="Enumerations\OpenVirtualDiskVersions.h" />
+    <ClInclude Include="Enumerations\ResizeVirtualDiskFlags.h" />
+    <ClInclude Include="Enumerations\ResizeVirtualDiskVersions.h" />
+    <ClInclude Include="Enumerations\SetVirtualDiskInfoVersions.h" />
+    <ClInclude Include="Enumerations\StorageDependencyInfoVersions.h" />
+    <ClInclude Include="Enumerations\TakeSnapshotVhdsetFlags.h" />
+    <ClInclude Include="Enumerations\TakeSnapshotVhdsetVersions.h" />
+    <ClInclude Include="Enumerations\VirtualDiskAccessMasks.h" />
+    <ClInclude Include="Enumerations\VirtualStorageDeviceTypes.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="Stdafx.h" />
+    <ClInclude Include="Structures\ApplySnapshotVhdsetParameters.h" />
+    <ClInclude Include="Structures\AttachVirtualDiskParameters.h" />
+    <ClInclude Include="Structures\CompactVirtualDiskParameters.h" />
+    <ClInclude Include="Structures\CreateVirtualDiskParameters.h" />
+    <ClInclude Include="Structures\DeleteSnapshotVhdsetParameters.h" />
+    <ClInclude Include="Structures\ExpandVirtualDiskParameters.h" />
+    <ClInclude Include="Structures\GetVirtualDiskInfo.h" />
+    <ClInclude Include="Structures\MergeVirtualDiskParameters.h" />
+    <ClInclude Include="Structures\MirrorVirtualDiskParameters.h" />
+    <ClInclude Include="Structures\ModifyVhdsetParameters.h" />
+    <ClInclude Include="Structures\OpenVirtualDiskParameters.h" />
+    <ClInclude Include="Structures\QueryChangesVirtualDiskRange.h" />
+    <ClInclude Include="Structures\ResizeVirtualDiskParameters.h" />
+    <ClInclude Include="Structures\SetVirtualDiskInfo.h" />
+    <ClInclude Include="Structures\StorageDependencyInfo.h" />
+    <ClInclude Include="Structures\TakeSnapshotVhdsetParameters.h" />
+    <ClInclude Include="Structures\VirtualDiskProgress.h" />
+    <ClInclude Include="Structures\VirtualStorageType.h" />
+    <ClInclude Include="VirtualDiskInterop.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AssemblyInfo.cpp" />
+    <ClCompile Include="Stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="VirtualDiskInterop.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="app.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="app.ico" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
