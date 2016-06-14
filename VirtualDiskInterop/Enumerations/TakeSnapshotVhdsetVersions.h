@@ -5,6 +5,9 @@ using namespace System;
 namespace VirtualDiskInterop
 {
 #ifdef WIN10SUPPORT
+	/// <summary>
+	/// Enumerates the possible versions for parameters for the TakeSnapshotVhdSet function.
+	/// </summary>
 	public enum class TakeSnapshotVhdsetVersions
 	{
 		Unspecified = TAKE_SNAPSHOT_VHDSET_VERSION_UNSPECIFIED,
