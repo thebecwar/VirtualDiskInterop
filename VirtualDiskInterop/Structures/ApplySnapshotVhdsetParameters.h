@@ -8,6 +8,9 @@ namespace VirtualDiskInterop
 	value class ApplySnapshotVhdsetParametersVersion1
 	{
 	public:
+		/// <summary>
+		/// The ID of the new snapshot to be applied to the VHD set.
+		/// </summary>
 		property Guid SnapshotId
 		{
 			Guid get()
@@ -19,6 +22,12 @@ namespace VirtualDiskInterop
 				this->m_SnapshotId = value;
 			}
 		}
+		
+		/// <summary>
+		/// Indicates whether the current default leaf data should be retained as part of the apply operation. 
+		/// When a zero GUID is specified, the apply operation will discard the current default leaf data. 
+		/// When a non-zero GUID is specified, the apply operation will convert the default leaf data into a writeable snapshot with the specified ID.
+		/// </summary>
 		property Guid LeafSnapshotId
 		{
 			Guid get()
@@ -34,9 +43,17 @@ namespace VirtualDiskInterop
 		Guid m_SnapshotId;
 		Guid m_LeafSnapshotId;
 	};
+	
+	/// <summary>
+	/// Contains snapshot parameters, indicating information about the new snapshot to be applied.
+	/// </summary>
 	public value class ApplySnapshotVhdsetParameters
 	{
 	public:
+		/// <summary>
+		/// An ApplySnapshotVhdsetVersions enumeration that specifies the version 
+		/// of the ApplySnapshotVhdsetParameters structure being passed to or from the VHD functions.
+		/// </summary>
 		property ApplySnapshotVhdsetVersions Version
 		{
 			ApplySnapshotVhdsetVersions get()
