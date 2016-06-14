@@ -30,6 +30,7 @@
 #include "Enumerations\ModifyVhdsetVersions.h"
 #include "Enumerations\OpenVirtualDiskFlags.h"
 #include "Enumerations\OpenVirtualDiskVersions.h"
+#include "Enumerations\QueryChangesVirtualDiskFlags.h"
 #include "Enumerations\ResizeVirtualDiskFlags.h"
 #include "Enumerations\ResizeVirtualDiskVersions.h"
 #include "Enumerations\SetVirtualDiskInfoVersions.h"
