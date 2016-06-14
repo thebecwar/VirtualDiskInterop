@@ -5,6 +5,9 @@ using namespace System;
 
 namespace VirtualDiskInterop
 {
+	/// <summary>
+	/// Contains the virtual storage device type
+	/// </summary>
 	public enum class VirtualStorageDeviceTypes
 	{
 		Unknown = VIRTUAL_STORAGE_TYPE_DEVICE_UNKNOWN,
