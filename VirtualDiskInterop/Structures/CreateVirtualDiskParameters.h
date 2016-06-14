@@ -129,6 +129,17 @@ namespace VirtualDiskInterop
 				this->m_SectorSizeInBytes = value;
 			}
 		}
+		property unsigned long PhysicalSectorSizeInBytes
+		{
+			unsigned long get()
+			{
+				return this->m_PhysicalSectorSizeInBytes;
+			}
+			void set(unsigned long value)
+			{
+				this->m_PhysicalSectorSizeInBytes = value;
+			}
+		}
 		property String^ ParentPath
 		{
 			String^ get()
@@ -184,11 +195,23 @@ namespace VirtualDiskInterop
 				this->m_SourceVirtualStorageType = value;
 			}
 		}
+		property Guid ResiliencyGuid
+		{
+			Guid get()
+			{
+				return this->m_ResiliencyGuid;
+			}
+			void set(Guid value)
+			{
+				this->m_ResiliencyGuid = value;
+			}
+		}
 	private:
 		Guid m_UniqueId;
 		unsigned long long m_MaximumSize;
 		unsigned long m_BlockSizeInBytes;
 		unsigned long m_SectorSizeInBytes;
+		unsigned long m_PhysicalSectorSizeInBytes;
 		String^ m_ParentPath;
 		String^ m_SourcePath;
 		OpenVirtualDiskFlags m_OpenFlags;

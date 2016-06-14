@@ -48,10 +48,11 @@ namespace VirtualDiskInterop
 		/// This flag causes all backing stores except the leaf backing store to be opened in cached mode.
 		/// </summary>
 		ParentCachedIo = OPEN_VIRTUAL_DISK_FLAG_PARENT_CACHED_IO,
-		
+#ifdef WIN10SUPPORT
 		/// <summary>
 		/// This flag causes a Vhd Set file to be opened without any virtual disk.
 		/// </summary>
 		VhdsetFileOnly = OPEN_VIRTUAL_DISK_FLAG_VHDSET_FILE_ONLY
+#endif
 	};
 }

@@ -40,6 +40,8 @@ namespace VirtualDiskInterop
 		/// </summary>
 		DoNotCopyMetadataFromParent = CREATE_VIRTUAL_DISK_FLAG_DO_NOT_COPY_METADATA_FROM_PARENT,
 		
+#ifdef WIN10SUPPORT
+
 		/// <summary>
 		/// Create the backing storage disk.
 		/// </summary>
@@ -62,5 +64,6 @@ namespace VirtualDiskInterop
 		/// not be enabled in the new VHD.
 		/// </summary>
 		PreserveParentChangeTrackingState = CREATE_VIRTUAL_DISK_FLAG_PRESERVE_PARENT_CHANGE_TRACKING_STATE
+#endif
 	};
 }

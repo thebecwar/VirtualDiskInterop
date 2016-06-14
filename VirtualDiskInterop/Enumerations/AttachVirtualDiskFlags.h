@@ -36,10 +36,12 @@ namespace VirtualDiskInterop
 		/// </summary>
 		NoLocalHost = ATTACH_VIRTUAL_DISK_FLAG_NO_LOCAL_HOST,
 		
+#ifdef WIN10SUPPORT
 		/// <summary>
 		/// Do not assign a custom security descriptor to the disk; use the system default.
 		/// </summary>
 		NoSecurityDescriptor = ATTACH_VIRTUAL_DISK_FLAG_NO_SECURITY_DESCRIPTOR
+#endif
 	};
 
 }

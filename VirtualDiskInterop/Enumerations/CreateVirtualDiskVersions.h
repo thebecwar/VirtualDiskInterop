@@ -12,6 +12,8 @@ namespace VirtualDiskInterop
 		Unspecified = CREATE_VIRTUAL_DISK_VERSION_UNSPECIFIED,
 		Version1 = CREATE_VIRTUAL_DISK_VERSION_1,
 		Version2 = CREATE_VIRTUAL_DISK_VERSION_2,
+#ifdef WIN10SUPPORT
 		Version3 = CREATE_VIRTUAL_DISK_VERSION_3
+#endif
 	};
 }
