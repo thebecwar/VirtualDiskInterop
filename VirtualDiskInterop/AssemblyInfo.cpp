@@ -12,7 +12,13 @@ using namespace System::Security::Permissions;
 // associated with an assembly.
 //
 [assembly:AssemblyTitleAttribute(L"VirtualDiskInterop")];
-[assembly:AssemblyDescriptionAttribute(L"")];
+#if defined(WIN10SUPPORT)
+[assembly:AssemblyDescriptionAttribute(L"Virtual Disk Interop Layer (Windows 10)")];
+#elif defined(WIN8SUPPORT)
+[assembly:AssemblyDescriptionAttribute(L"Virtual Disk Interop Layer (Windows 8)")];
+#else
+[assembly:AssemblyDescriptionAttribute(L"Virtual Disk Interop Layer (Windows 7)")];
+#endif
 [assembly:AssemblyConfigurationAttribute(L"")];
 [assembly:AssemblyCompanyAttribute(L"")];
 [assembly:AssemblyProductAttribute(L"VirtualDiskInterop")];
