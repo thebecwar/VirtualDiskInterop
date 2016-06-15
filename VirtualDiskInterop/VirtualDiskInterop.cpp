@@ -2,9 +2,6 @@
 
 #include "stdafx.h"
 
-// Uncomment to support Windows 10 functionality. Must retarget project to the appropriate SDK if you do.
-//#define WIN10SUPPORT
-
 // Enumerations
 #include "Enumerations\ApplySnapshotVhdsetFlags.h"
 #include "Enumerations\ApplySnapshotVhdsetVersions.h"

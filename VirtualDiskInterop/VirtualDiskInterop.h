@@ -150,6 +150,7 @@ namespace VirtualDiskInterop {
 			ModifyVhdsetParameters Parameters,
 			ModifyVhdsetFlags Flags)
 		{
+			DWORD result = ::ModifyVhdSet(NULL, NULL, (MODIFY_VHDSET_FLAG)0);
 			return 0;
 		}
 #endif

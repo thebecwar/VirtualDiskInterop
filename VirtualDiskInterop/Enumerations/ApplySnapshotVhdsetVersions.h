@@ -8,7 +8,7 @@ namespace VirtualDiskInterop
 	/// <summary>
 	/// Enumerates the possible versions for parameters for the ApplySnapshotVhdSet function.
 	/// </summary>
-	public enum class ApplySnapshotVhdsetFlags
+	public enum class ApplySnapshotVhdsetVersions
 	{
 		/// <summary>
 		/// Not Supported.

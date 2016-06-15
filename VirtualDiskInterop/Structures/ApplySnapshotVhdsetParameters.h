@@ -5,7 +5,7 @@ using namespace System;
 namespace VirtualDiskInterop
 {
 #ifdef WIN10SUPPORT
-	value class ApplySnapshotVhdsetParametersVersion1
+	public value class ApplySnapshotVhdsetParametersVersion1
 	{
 	public:
 		/// <summary>

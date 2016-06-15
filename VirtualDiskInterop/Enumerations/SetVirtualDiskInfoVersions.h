@@ -44,7 +44,7 @@ namespace VirtualDiskInterop
 		/// </summary>
 		VirtualDiskID = SET_VIRTUAL_DISK_INFO_VIRTUAL_DISK_ID,
 
-#if WIN10SUPPORT
+#ifdef WIN10SUPPORT
 		/// <summary>
 		/// Whether resilient change tracking (RCT) is turned on for the virtual disk.
 		/// This value is not supported before Windows 10 and Windows Server 2016 Technical Preview.

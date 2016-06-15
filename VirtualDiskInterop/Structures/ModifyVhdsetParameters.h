@@ -75,11 +75,11 @@ namespace VirtualDiskInterop
 		{
 			String^ get()
 			{
-				return this->DefaultFilePath;
+				return this->m_DefaultFilePath;
 			}
 			void set(String^ value)
 			{
-				this->DefaultFilePath = value;
+				this->m_DefaultFilePath = value;
 			}
 		}
 	private:
