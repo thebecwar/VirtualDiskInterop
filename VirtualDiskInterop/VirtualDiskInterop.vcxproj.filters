@@ -177,6 +177,12 @@
     <ClInclude Include="Enumerations\QueryChangesVirtualDiskFlags.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Structures\Overlapped.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Structures\VirtualDiskSafeHandle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="VirtualDiskInterop.cpp">

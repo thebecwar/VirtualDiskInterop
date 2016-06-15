@@ -178,12 +178,14 @@
     <ClInclude Include="Structures\MirrorVirtualDiskParameters.h" />
     <ClInclude Include="Structures\ModifyVhdsetParameters.h" />
     <ClInclude Include="Structures\OpenVirtualDiskParameters.h" />
+    <ClInclude Include="Structures\Overlapped.h" />
     <ClInclude Include="Structures\QueryChangesVirtualDiskRange.h" />
     <ClInclude Include="Structures\ResizeVirtualDiskParameters.h" />
     <ClInclude Include="Structures\SetVirtualDiskInfo.h" />
     <ClInclude Include="Structures\StorageDependencyInfo.h" />
     <ClInclude Include="Structures\TakeSnapshotVhdsetParameters.h" />
     <ClInclude Include="Structures\VirtualDiskProgress.h" />
+    <ClInclude Include="Structures\VirtualDiskSafeHandle.h" />
     <ClInclude Include="Structures\VirtualStorageType.h" />
     <ClInclude Include="VirtualDiskInterop.h" />
   </ItemGroup>

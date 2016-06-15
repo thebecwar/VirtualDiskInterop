@@ -59,6 +59,10 @@
 #include "Structures\TakeSnapshotVhdsetParameters.h"
 #include "Structures\VirtualDiskProgress.h"
 
+// Implementation Classes
+#include "Structures\Overlapped.h"
+#include "Structures\VirtualDiskSafeHandle.h"
+
 
 // Wrapper class
 #include "VirtualDiskInterop.h"
