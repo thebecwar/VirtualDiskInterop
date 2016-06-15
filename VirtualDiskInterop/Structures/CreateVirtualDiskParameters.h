@@ -4,7 +4,7 @@ using namespace System;
 
 namespace VirtualDiskInterop
 {
-	public value class CreateCirtualDiskParametersVersion1
+	public value class CreateVirtualDiskParametersVersion1
 	{
 	public:
 		property Guid UniqueId
@@ -82,7 +82,7 @@ namespace VirtualDiskInterop
 		String^ m_SourcePath;
 	};
 
-	public value class CreateCirtualDiskParametersVersion2
+	public value class CreateVirtualDiskParametersVersion2
 	{
 	public:
 		property Guid UniqueId
@@ -220,7 +220,7 @@ namespace VirtualDiskInterop
 		Guid m_ResiliencyGuid;
 	};
 
-	public value class CreateCirtualDiskParameters
+	public value class CreateVirtualDiskParameters
 	{
 	public:
 		property CreateVirtualDiskVersions Version
@@ -234,31 +234,31 @@ namespace VirtualDiskInterop
 				this->m_Version = value;
 			}
 		}
-		property CreateCirtualDiskParametersVersion1 Version1
+		property CreateVirtualDiskParametersVersion1 Version1
 		{
-			CreateCirtualDiskParametersVersion1 get()
+			CreateVirtualDiskParametersVersion1 get()
 			{
 				return this->m_Version1;
 			}
-			void set(CreateCirtualDiskParametersVersion1 value)
+			void set(CreateVirtualDiskParametersVersion1 value)
 			{
 				this->m_Version1 = value;
 			}
 		}
-		property CreateCirtualDiskParametersVersion2 Version2
+		property CreateVirtualDiskParametersVersion2 Version2
 		{
-			CreateCirtualDiskParametersVersion2 get()
+			CreateVirtualDiskParametersVersion2 get()
 			{
 				return this->m_Version2;
 			}
-			void set(CreateCirtualDiskParametersVersion2 value)
+			void set(CreateVirtualDiskParametersVersion2 value)
 			{
 				this->m_Version2 = value;
 			}
 		}
 	private:
 		CreateVirtualDiskVersions m_Version;
-		CreateCirtualDiskParametersVersion1 m_Version1;
-		CreateCirtualDiskParametersVersion2 m_Version2;
+		CreateVirtualDiskParametersVersion1 m_Version1;
+		CreateVirtualDiskParametersVersion2 m_Version2;
 	};
 }

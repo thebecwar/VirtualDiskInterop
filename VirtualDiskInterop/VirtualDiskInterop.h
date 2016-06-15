@@ -55,7 +55,7 @@ namespace VirtualDiskInterop {
 			RawSecurityDescriptor^ SecurityDescriptor,
 			CreateVirtualDiskFlags Flags,
 			unsigned long ProviderSpecificFlags,
-			CreateCirtualDiskParameters Parameters,
+			CreateVirtualDiskParameters Parameters,
 			IntPtr Overlapped,
 			IntPtr% VirtualDiskHandle)
 		{
