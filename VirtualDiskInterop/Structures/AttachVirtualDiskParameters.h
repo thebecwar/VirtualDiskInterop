@@ -8,6 +8,9 @@ namespace VirtualDiskInterop
 	public value class AttachVirtualDiskParametersVersion1
 	{
 	public:
+		/// <summary>
+		/// Reserved.
+		/// </summary>
 		property unsigned long Reserved
 		{
 			unsigned long get()
@@ -23,9 +26,15 @@ namespace VirtualDiskInterop
 		unsigned long m_Reserved = 0;
 	};
 
+	/// <summary>
+	/// Contains virtual hard disk attach request parameters.
+	/// </summary>
 	public value class AttachVirtualDiskParameters
 	{
 	public:
+		/// <summary>
+		/// An AttachVirtualDiskVersions enumeration that specifies the version of the AttachVirtualDiskVersions structure being passed to or from the VHD functions.
+		/// </summary>
 		property AttachVirtualDiskVersions Version
 		{
 			AttachVirtualDiskVersions get()
