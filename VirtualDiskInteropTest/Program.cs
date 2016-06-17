@@ -12,9 +12,9 @@ namespace VirtualDiskInteropTest
     {
         static void Main(string[] args)
         {
-            _VirtualStorageType storageType = new _VirtualStorageType();
+            VirtualStorageType storageType = new VirtualStorageType();
             storageType.DeviceId = VirtualStorageDeviceTypes.Vhdx;
-            storageType.VendorId = _VirtualStorageType.VendorIdMicrosoft;
+            storageType.VendorId = VirtualStorageType.VendorIdMicrosoft;
 
             string filename = @"C:\Users\Mark.HammerMill\Documents\DeleteThis.vhdx";
 

@@ -4,7 +4,7 @@ using namespace System;
 
 namespace VirtualDiskInterop
 {
-	public value class _VirtualStorageType
+	public value class VirtualStorageType
 	{
 	public:
 		// Taken from VirtDisk.h

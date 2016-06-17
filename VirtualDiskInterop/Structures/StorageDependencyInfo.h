@@ -29,13 +29,13 @@ namespace VirtualDiskInterop
 				this->m_ProviderSpecificFlags = value;
 			}
 		}
-		property _VirtualStorageType VirtualStorageType
+		property VirtualDiskInterop::VirtualStorageType VirtualStorageType
 		{
-			_VirtualStorageType get()
+			VirtualDiskInterop::VirtualStorageType get()
 			{
 				return this->m_VirtualStorageType;
 			}
-			void set(_VirtualStorageType value)
+			void set(VirtualDiskInterop::VirtualStorageType value)
 			{
 				this->m_VirtualStorageType = value;
 			}
@@ -43,7 +43,7 @@ namespace VirtualDiskInterop
 	private:
 		DependentDiskFlags m_DependencyTypeFlags;
 		unsigned long m_ProviderSpecificFlags;
-		_VirtualStorageType m_VirtualStorageType;
+		VirtualDiskInterop::VirtualStorageType m_VirtualStorageType;
 	};
 
 	public value class StorageDependencyInfoType2
@@ -71,13 +71,13 @@ namespace VirtualDiskInterop
 				this->m_ProviderSpecificFlags = value;
 			}
 		}
-		property _VirtualStorageType VirtualStorageType
+		property VirtualDiskInterop::VirtualStorageType VirtualStorageType
 		{
-			_VirtualStorageType get()
+			VirtualDiskInterop::VirtualStorageType get()
 			{
 				return this->m_VirtualStorageType;
 			}
-			void set(_VirtualStorageType value)
+			void set(VirtualDiskInterop::VirtualStorageType value)
 			{
 				this->m_VirtualStorageType = value;
 			}
@@ -140,7 +140,7 @@ namespace VirtualDiskInterop
 	private:
 		DependentDiskFlags m_DependencyTypeFlags;
 		unsigned long m_ProviderSpecificFlags;
-		_VirtualStorageType m_VirtualStorageType;
+		VirtualDiskInterop::VirtualStorageType m_VirtualStorageType;
 		unsigned long m_AncestorLevel;
 		String^ m_DependencyDeviceName;
 		String^ m_HostVolumeName;

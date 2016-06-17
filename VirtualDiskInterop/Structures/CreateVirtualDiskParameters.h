@@ -173,24 +173,24 @@ namespace VirtualDiskInterop
 				this->m_OpenFlags = value;
 			}
 		}
-		property _VirtualStorageType ParentVirtualStorageType
+		property VirtualStorageType ParentVirtualStorageType
 		{
-			_VirtualStorageType get()
+			VirtualStorageType get()
 			{
 				return this->m_ParentVirtualStorageType;
 			}
-			void set(_VirtualStorageType value)
+			void set(VirtualStorageType value)
 			{
 				this->m_ParentVirtualStorageType = value;
 			}
 		}
-		property _VirtualStorageType SourceVirtualStorageType
+		property VirtualStorageType SourceVirtualStorageType
 		{
-			_VirtualStorageType get()
+			VirtualStorageType get()
 			{
 				return this->m_SourceVirtualStorageType;
 			}
-			void set(_VirtualStorageType value)
+			void set(VirtualStorageType value)
 			{
 				this->m_SourceVirtualStorageType = value;
 			}
@@ -215,8 +215,8 @@ namespace VirtualDiskInterop
 		String^ m_ParentPath;
 		String^ m_SourcePath;
 		OpenVirtualDiskFlags m_OpenFlags;
-		_VirtualStorageType m_ParentVirtualStorageType;
-		_VirtualStorageType m_SourceVirtualStorageType;
+		VirtualStorageType m_ParentVirtualStorageType;
+		VirtualStorageType m_SourceVirtualStorageType;
 		Guid m_ResiliencyGuid;
 	};
 

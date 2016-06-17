@@ -49,7 +49,7 @@ namespace VirtualDiskInterop {
 			return 0;
 		}
 		static unsigned int CreateVirtualDisk(
-			_VirtualStorageType VirtualStorageType,
+			VirtualDiskInterop::VirtualStorageType VirtualStorageType,
 			String^ Path,
 			VirtualDiskAccessMasks VirtualDiskAccessMask,
 			RawSecurityDescriptor^ SecurityDescriptor,
@@ -152,8 +152,9 @@ namespace VirtualDiskInterop {
 			return 0;
 		}
 #endif
+
 		static unsigned int OpenVirtualDisk(
-			_VirtualStorageType VirtualStorageType,
+			VirtualDiskInterop::VirtualStorageType VirtualStorageType,
 			String^ Path,
 			VirtualDiskAccessMasks VirtualDiskAccessMask,
 			OpenVirtualDiskFlags Flags,

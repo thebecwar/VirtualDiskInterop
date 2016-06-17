@@ -144,7 +144,7 @@ namespace VirtualDiskInterop
 		void PopulateNativeStruct(GET_VIRTUAL_DISK_INFO* info)
 		{
 			info->ParentLocation.ParentResolved = (BOOL)this->m_ParentResolved;
-			// TODO: parse strings
+			
 		}
 		void ReadNativeStruct(GET_VIRTUAL_DISK_INFO* info)
 		{
@@ -253,13 +253,20 @@ namespace VirtualDiskInterop
 	internal:
 		size_t GetSizeNeeded()
 		{
-			return 0;
+			int strLen = this->m_MostRecentId != nullptr ? this->m_MostRecentId->Length + 1 : 0;
+			strLen *= sizeof(Char);
+			return strLen;
 		}
 		void PopulateNativeStruct(GET_VIRTUAL_DISK_INFO* info)
 		{
 			info->ChangeTrackingState.Enabled = (BOOL)this->m_Enabled;
 			info->ChangeTrackingState.NewerChanges = (BOOL)this->m_NewerChanges;
-			// TODO: String data
+			if (!String::IsNullOrEmpty(this->m_MostRecentId))
+			{
+				int cbLen = (this->m_MostRecentId->Length + 1) * sizeof(Char);
+				pin_ptr<const WCHAR> strPtr = PtrToStringChars(this->m_MostRecentId);
+				memcpy(info->ChangeTrackingState.MostRecentId, strPtr, cbLen);
+			}
 		}
 		void ReadNativeStruct(GET_VIRTUAL_DISK_INFO* info)
 		{
@@ -339,13 +346,13 @@ namespace VirtualDiskInterop
 				this->m_ParentTimestamp = value;
 			}
 		}
-		property _VirtualStorageType VirtualStorageType
+		property VirtualDiskInterop::VirtualStorageType VirtualStorageType
 		{
-			_VirtualStorageType get()
+			VirtualDiskInterop::VirtualStorageType get()
 			{
 				return this->m_VirtualStorageType;
 			}
-			void set(_VirtualStorageType value)
+			void set(VirtualDiskInterop::VirtualStorageType value)
 			{
 				this->m_VirtualStorageType = value;
 			}
@@ -458,7 +465,7 @@ namespace VirtualDiskInterop
 		GetVirtualDiskInfoParentLocation m_ParentLocation;
 		Guid m_ParentIdentifier;
 		unsigned long m_ParentTimestamp;
-		_VirtualStorageType m_VirtualStorageType;
+		VirtualDiskInterop::VirtualStorageType m_VirtualStorageType;
 		unsigned long m_ProviderSubtype;
 		bool m_Is4kAligned;
 		bool m_IsLoaded;

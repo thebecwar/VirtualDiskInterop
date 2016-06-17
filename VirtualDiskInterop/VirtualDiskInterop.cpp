@@ -77,7 +77,7 @@ namespace VirtualDiskInterop
 {
 
 	unsigned int VirtualDiskApi::OpenVirtualDisk(
-		_VirtualStorageType VirtualStorageType,
+		VirtualDiskInterop::VirtualStorageType VirtualStorageType,
 		String^ Path,
 		VirtualDiskAccessMasks VirtualDiskAccessMask,
 		OpenVirtualDiskFlags Flags,
