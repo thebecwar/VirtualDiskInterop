@@ -25,13 +25,27 @@ namespace VirtualDiskInterop
 		}
 
 
-		String^ ArrayToMultiSz(array<String^>^ data)
+		static String^ ArrayToMultiSz(array<String^>^ data)
 		{
-			return String::Empty;
+			String^ result = String::Join(L"\0", data);
+			result = String::Concat(result, L"\0\0");
+			return result;
 		}
-		array<String^>^ MultiSzToArray(String^ data)
+		static array<String^>^ MultiSzToArray(WCHAR* rawData)
 		{
-			return nullptr;
+			List<String^>^ result = gcnew List<String^>();
+
+			int offset = 0;
+			String^ data = gcnew String(rawData);
+
+			while (!String::IsNullOrEmpty(data))
+			{
+				result->Add(data);
+				offset += (data->Length + 1) * 2;
+				data = gcnew String(rawData + offset);
+			}
+
+			return result->ToArray();
 		}
 
 

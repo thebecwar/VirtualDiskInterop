@@ -144,12 +144,25 @@ namespace VirtualDiskInterop
 		void PopulateNativeStruct(GET_VIRTUAL_DISK_INFO* info)
 		{
 			info->ParentLocation.ParentResolved = (BOOL)this->m_ParentResolved;
-			
+			if (this->m_ParentResolved)
+			{
+				int cbLen = (this->m_ParentLocationBuffer->Length + 1) * sizeof(Char);
+				pin_ptr<const WCHAR> pString = PtrToStringChars(this->m_ParentLocationBuffer);
+				memcpy(info->ParentLocation.ParentLocationBuffer, pString, cbLen);
+			}
 		}
 		void ReadNativeStruct(GET_VIRTUAL_DISK_INFO* info)
 		{
 			this->m_ParentResolved = info->ParentLocation.ParentResolved != 0;
-			// TODO: parse strings
+			if (this->m_ParentResolved)
+			{
+				this->m_ParentLocationBuffer = gcnew String(info->ParentLocation.ParentLocationBuffer);
+			}
+			else
+			{
+				this->m_ParentLocations = Helpers::MultiSzToArray(info->ParentLocation.ParentLocationBuffer);
+			}
+
 		}
 	};
 
@@ -255,7 +268,7 @@ namespace VirtualDiskInterop
 		{
 			int strLen = this->m_MostRecentId != nullptr ? this->m_MostRecentId->Length + 1 : 0;
 			strLen *= sizeof(Char);
-			return strLen;
+			return strLen + 8; // Add 2 BOOLs
 		}
 		void PopulateNativeStruct(GET_VIRTUAL_DISK_INFO* info)
 		{
@@ -480,8 +493,14 @@ namespace VirtualDiskInterop
 
 	internal:
 		GET_VIRTUAL_DISK_INFO* m_NativeData = NULL;
-		GET_VIRTUAL_DISK_INFO* GetNative(size_t bufferSize, size_t& sizeUsed)
+		GET_VIRTUAL_DISK_INFO* GetNative(size_t bufferSize)
 		{
+			if (this->m_NativeData != NULL)
+			{
+				LocalFree(this->m_NativeData);
+				this->m_NativeData = NULL;
+			}
+
 			if (bufferSize < sizeof(GET_VIRTUAL_DISK_INFO))
 			{
 				return NULL;
@@ -510,7 +529,8 @@ namespace VirtualDiskInterop
 					this->m_NativeData->ParentTimestamp = this->m_ParentTimestamp;
 					break;
 				case GetVirtualDiskInfoVersions::VirtualStorageType:
-					// Todo: implement copy from pointer.
+					this->m_NativeData->VirtualStorageType.DeviceId = (ULONG)this->VirtualStorageType.DeviceId;
+					this->m_NativeData->VirtualStorageType.VendorId = Helpers::ToGUID(this->VirtualStorageType.VendorId);
 					break;
 				case GetVirtualDiskInfoVersions::ProviderSubtype:
 					this->m_NativeData->ProviderSubtype = this->m_ProviderSubtype;
@@ -540,7 +560,66 @@ namespace VirtualDiskInterop
 			}
 			return this->m_NativeData;
 		}
-
+		void ReleaseNative(bool updateData)
+		{
+			if (this->m_NativeData != NULL)
+			{
+				if (updateData)
+				{
+					switch ((GetVirtualDiskInfoVersions)this->m_NativeData->Version)
+					{
+					case GetVirtualDiskInfoVersions::Size:
+						this->m_Size.ReadNativeStruct(this->m_NativeData);
+						break;
+					case GetVirtualDiskInfoVersions::Identifier:
+						this->m_Identifier = Helpers::FromGUID(this->m_NativeData->Identifier);
+						break;
+					case GetVirtualDiskInfoVersions::ParentLocation:
+						this->m_ParentLocation.ReadNativeStruct(this->m_NativeData);
+						break;
+					case GetVirtualDiskInfoVersions::ParentIdentifier:
+						this->m_ParentIdentifier = Helpers::FromGUID(this->m_NativeData->ParentIdentifier);
+						break;
+					case GetVirtualDiskInfoVersions::ParentTimestamp:
+						this->m_ParentTimestamp = this->m_NativeData->ParentTimestamp;
+						break;
+					case GetVirtualDiskInfoVersions::VirtualStorageType:
+						this->m_VirtualStorageType = VirtualDiskInterop::VirtualStorageType();
+						this->m_VirtualStorageType.DeviceId = (VirtualStorageDeviceTypes)this->m_NativeData->VirtualStorageType.DeviceId;
+						this->m_VirtualStorageType.VendorId = Helpers::FromGUID(this->m_NativeData->VirtualStorageType.VendorId);
+						break;
+					case GetVirtualDiskInfoVersions::ProviderSubtype:
+						this->m_ProviderSubtype = this->m_NativeData->ProviderSubtype;
+						break;
+					case GetVirtualDiskInfoVersions::Is4kAligned:
+						this->m_Is4kAligned = this->m_NativeData->Is4kAligned != 0;
+						break;
+					case GetVirtualDiskInfoVersions::IsLoaded:
+						this->m_IsLoaded = this->m_NativeData->IsLoaded != 0;
+						break;
+					case GetVirtualDiskInfoVersions::PhysicalDisk:
+						this->m_PhysicalDisk.ReadNativeStruct(this->m_NativeData);
+						break;
+					case GetVirtualDiskInfoVersions::PhysicalSectorSize:
+						this->m_VhdPhysicalSectorSize = this->m_NativeData->VhdPhysicalSectorSize;
+						break;
+					case GetVirtualDiskInfoVersions::SmallestSafeVirtualSize:
+						this->m_SmallestSafeVirtualSize = this->m_NativeData->SmallestSafeVirtualSize;
+						break;
+					case GetVirtualDiskInfoVersions::Fragmentation:
+						this->m_FragmentationPercentage = this->m_NativeData->FragmentationPercentage;
+						break;
+					case GetVirtualDiskInfoVersions::VirtualDiskID:
+						this->m_VirtualDiskId = Helpers::FromGUID(this->m_NativeData->VirtualDiskId);
+						break;
+					}
+				}
+			}
+			if (LocalFree(this->m_NativeData) == 0)
+			{
+				this->m_NativeData = NULL;
+			}
+		}
 
 	};
 }

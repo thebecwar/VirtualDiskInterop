@@ -25,14 +25,15 @@ namespace VirtualDiskInteropTest
 
             uint result = VirtualDiskApi.OpenVirtualDisk(storageType, 
                                                          filename, 
-                                                         VirtualDiskAccessMasks.None, 
+                                                         VirtualDiskAccessMasks.Read, 
                                                          OpenVirtualDiskFlags.None, 
                                                          parameters, 
                                                          diskHandle);
 
             GetVirtualDiskInfo info = new GetVirtualDiskInfo();
-            info.Version = GetVirtualDiskInfoVersions.Size;
-            
+            info.Version = GetVirtualDiskInfoVersions.ParentLocation;
+
+            result = VirtualDiskApi.GetVirtualDiskInformation(diskHandle, ref info);
 
 
 

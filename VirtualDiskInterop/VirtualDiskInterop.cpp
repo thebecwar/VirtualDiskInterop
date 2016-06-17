@@ -109,7 +109,18 @@ namespace VirtualDiskInterop
 		GetVirtualDiskInfo% VirtualDiskInfo)
 	{
 
-		return 0;
+		GET_VIRTUAL_DISK_INFO* info = VirtualDiskInfo.GetNative(1024);
+
+		HANDLE hDisk = VirtualDiskHandle->DangerousGetHandle().ToPointer();
+
+
+		ULONG size = sizeof(GET_VIRTUAL_DISK_INFO);
+		ULONG sizeUsed = 0;
+		DWORD apiResult = ::GetVirtualDiskInformation(hDisk, &size, info, &sizeUsed);
+
+		VirtualDiskInfo.ReleaseNative(true);
+
+		return (unsigned int)apiResult;
 	}
 
 }
