@@ -12,8 +12,32 @@ namespace VirtualDiskInteropTest
     {
         static void Main(string[] args)
         {
+            _VirtualStorageType storageType = new _VirtualStorageType();
+            storageType.DeviceId = VirtualStorageDeviceTypes.Vhdx;
+            storageType.VendorId = _VirtualStorageType.VendorIdMicrosoft;
+
+            string filename = @"C:\Users\Mark.HammerMill\Documents\DeleteThis.vhdx";
+
+            OpenVirtualDiskParameters parameters = new OpenVirtualDiskParameters();
+            parameters.Version = OpenVirtualDiskVersions.Version1;
+
+            VirtualDiskSafeHandle diskHandle = new VirtualDiskSafeHandle();
+
+            uint result = VirtualDiskApi.OpenVirtualDisk(storageType, 
+                                                         filename, 
+                                                         VirtualDiskAccessMasks.None, 
+                                                         OpenVirtualDiskFlags.None, 
+                                                         parameters, 
+                                                         diskHandle);
+
+            GetVirtualDiskInfo info = new GetVirtualDiskInfo();
+            info.Version = GetVirtualDiskInfoVersions.Size;
             
 
+
+
+            diskHandle.ReleaseHandle();
+            diskHandle = null;
         }
     }
 }

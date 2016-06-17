@@ -56,6 +56,21 @@ namespace VirtualDiskInterop
 		unsigned long long m_PhysicalSize;
 		unsigned long m_BlockSize;
 		unsigned long m_SectorSize;
+	internal:
+		void PopulateNativeStruct(GET_VIRTUAL_DISK_INFO* info)
+		{
+			info->Size.BlockSize = this->m_BlockSize;
+			info->Size.PhysicalSize = this->m_PhysicalSize;
+			info->Size.SectorSize = this->m_SectorSize;
+			info->Size.VirtualSize = this->m_VirtualSize;
+		}
+		void ReadNativeStruct(GET_VIRTUAL_DISK_INFO* info)
+		{
+			this->m_VirtualSize = info->Size.VirtualSize;
+			this->m_PhysicalSize = info->Size.PhysicalSize;
+			this->m_BlockSize = info->Size.BlockSize;
+			this->m_SectorSize = info->Size.SectorSize;
+		}
 	};
 
 	public value class GetVirtualDiskInfoParentLocation
@@ -83,9 +98,59 @@ namespace VirtualDiskInterop
 				this->m_ParentLocationBuffer = value;
 			}
 		}
+		property array<String^>^ ParentLocations
+		{
+			array<String^>^ get()
+			{
+				return this->m_ParentLocations;
+			}
+			void set(array<String^>^ value)
+			{
+				this->m_ParentLocations = value;
+			}
+		}
 	private:
 		bool m_ParentResolved;
 		String^ m_ParentLocationBuffer;
+		array<String^>^ m_ParentLocations;
+	internal:
+		size_t GetSizeNeeded()
+		{
+			if (this->m_ParentResolved)
+			{ 
+				// single string
+				int cch = this->m_ParentLocationBuffer != nullptr ? this->m_ParentLocationBuffer->Length + 1 : 0;
+				cch *= sizeof(Char);
+				return cch;
+			}
+			else
+			{
+				if (this->m_ParentLocations != nullptr)
+				{
+					int cch = 0;
+					for (int i = 0; i < this->m_ParentLocations->Length; i++)
+					{
+						cch += this->m_ParentLocations[i] != nullptr ? this->m_ParentLocations[i]->Length + 1 : 0;
+					}
+					cch = (cch + 2) * sizeof(Char);
+					return cch;
+				}
+				else
+				{
+					return 0;
+				}
+			}
+		}
+		void PopulateNativeStruct(GET_VIRTUAL_DISK_INFO* info)
+		{
+			info->ParentLocation.ParentResolved = (BOOL)this->m_ParentResolved;
+			// TODO: parse strings
+		}
+		void ReadNativeStruct(GET_VIRTUAL_DISK_INFO* info)
+		{
+			this->m_ParentResolved = info->ParentLocation.ParentResolved != 0;
+			// TODO: parse strings
+		}
 	};
 
 	public value class GetVirtualDiskInfoPhysicalDisk
@@ -128,8 +193,22 @@ namespace VirtualDiskInterop
 		unsigned long m_LogicalSectorSize;
 		unsigned long m_PhysicalSectorSize;
 		bool m_IsRemote;
+
+	internal:
+		void PopulateNativeStruct(GET_VIRTUAL_DISK_INFO* info)
+		{
+			info->PhysicalDisk.LogicalSectorSize = this->m_LogicalSectorSize;
+			info->PhysicalDisk.PhysicalSectorSize = this->m_PhysicalSectorSize;
+			info->PhysicalDisk.IsRemote = (BOOL)this->m_IsRemote;
+		}
+		void ReadNativeStruct(GET_VIRTUAL_DISK_INFO* info)
+		{
+			this->m_LogicalSectorSize = info->PhysicalDisk.LogicalSectorSize;
+			this->m_PhysicalSectorSize = info->PhysicalDisk.PhysicalSectorSize;
+			this->m_IsRemote = info->PhysicalDisk.IsRemote != 0;
+		}
 	};
-	
+
 #ifdef WIN10SUPPORT
 	public value class GetVirtualDiskInfoChangeTrackingState
 	{
@@ -171,6 +250,23 @@ namespace VirtualDiskInterop
 		bool m_Enabled;
 		bool m_NewerChanges;
 		String^ m_MostRecentId;
+	internal:
+		size_t GetSizeNeeded()
+		{
+			return 0;
+		}
+		void PopulateNativeStruct(GET_VIRTUAL_DISK_INFO* info)
+		{
+			info->ChangeTrackingState.Enabled = (BOOL)this->m_Enabled;
+			info->ChangeTrackingState.NewerChanges = (BOOL)this->m_NewerChanges;
+			// TODO: String data
+		}
+		void ReadNativeStruct(GET_VIRTUAL_DISK_INFO* info)
+		{
+			this->m_Enabled = info->ChangeTrackingState.Enabled != 0;
+			this->m_NewerChanges = info->ChangeTrackingState.Enabled != 0;
+			this->m_MostRecentId = gcnew String(info->ChangeTrackingState.MostRecentId);
+		}
 	};
 #endif
 
@@ -373,6 +469,71 @@ namespace VirtualDiskInterop
 		Guid m_VirtualDiskId;
 #ifdef WIN10SUPPORT
 		GetVirtualDiskInfoChangeTrackingState m_ChangeTrackingState;
-#endif
+#endif;
+
+	internal:
+		GET_VIRTUAL_DISK_INFO* m_NativeData = NULL;
+		GET_VIRTUAL_DISK_INFO* GetNative(size_t bufferSize, size_t& sizeUsed)
+		{
+			if (bufferSize < sizeof(GET_VIRTUAL_DISK_INFO))
+			{
+				return NULL;
+				// TODO: Expand this to check buffers for ParentLocation and ChangeTrackingState.
+			}
+
+			this->m_NativeData = (GET_VIRTUAL_DISK_INFO*)LocalAlloc(LPTR, bufferSize);
+			if (this->m_NativeData)
+			{
+				this->m_NativeData->Version = (GET_VIRTUAL_DISK_INFO_VERSION)this->m_Version;
+				switch (this->m_Version)
+				{
+				case GetVirtualDiskInfoVersions::Size:
+					this->m_Size.PopulateNativeStruct(this->m_NativeData);
+					break;
+				case GetVirtualDiskInfoVersions::Identifier:
+					this->m_NativeData->Identifier = Helpers::ToGUID(this->m_Identifier);
+					break;
+				case GetVirtualDiskInfoVersions::ParentLocation:
+					this->m_ParentLocation.PopulateNativeStruct(this->m_NativeData);
+					break;
+				case GetVirtualDiskInfoVersions::ParentIdentifier:
+					this->m_NativeData->ParentIdentifier = Helpers::ToGUID(this->m_ParentIdentifier);
+					break;
+				case GetVirtualDiskInfoVersions::ParentTimestamp:
+					this->m_NativeData->ParentTimestamp = this->m_ParentTimestamp;
+					break;
+				case GetVirtualDiskInfoVersions::VirtualStorageType:
+					// Todo: implement copy from pointer.
+					break;
+				case GetVirtualDiskInfoVersions::ProviderSubtype:
+					this->m_NativeData->ProviderSubtype = this->m_ProviderSubtype;
+					break;
+				case GetVirtualDiskInfoVersions::Is4kAligned:
+					this->m_NativeData->Is4kAligned = (BOOL)this->m_Is4kAligned;
+					break;
+				case GetVirtualDiskInfoVersions::IsLoaded:
+					this->m_NativeData->IsLoaded = (BOOL)this->m_IsLoaded;
+					break;
+				case GetVirtualDiskInfoVersions::PhysicalDisk:
+					this->m_PhysicalDisk.PopulateNativeStruct(this->m_NativeData);
+					break;
+				case GetVirtualDiskInfoVersions::PhysicalSectorSize:
+					this->m_NativeData->VhdPhysicalSectorSize = this->m_VhdPhysicalSectorSize;
+					break;
+				case GetVirtualDiskInfoVersions::SmallestSafeVirtualSize:
+					this->m_NativeData->SmallestSafeVirtualSize = this->m_SmallestSafeVirtualSize;
+					break;
+				case GetVirtualDiskInfoVersions::Fragmentation:
+					this->m_NativeData->FragmentationPercentage = this->m_FragmentationPercentage;
+					break;
+				case GetVirtualDiskInfoVersions::VirtualDiskID:
+					this->m_NativeData->VirtualDiskId = Helpers::ToGUID(this->m_VirtualDiskId);
+					break;
+				}
+			}
+			return this->m_NativeData;
+		}
+
+
 	};
 }

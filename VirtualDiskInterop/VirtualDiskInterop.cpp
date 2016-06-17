@@ -2,6 +2,8 @@
 
 #include "stdafx.h"
 
+#include "Helpers.h"
+
 // Enumerations
 #include "Enumerations\ApplySnapshotVhdsetFlags.h"
 #include "Enumerations\ApplySnapshotVhdsetVersions.h"
@@ -66,3 +68,48 @@
 
 // Wrapper class
 #include "VirtualDiskInterop.h"
+
+///////////////////////////////////////////////////////////
+// Implementation of class members
+//////////////////////////////////////////////////////////
+
+namespace VirtualDiskInterop
+{
+
+	unsigned int VirtualDiskApi::OpenVirtualDisk(
+		_VirtualStorageType VirtualStorageType,
+		String^ Path,
+		VirtualDiskAccessMasks VirtualDiskAccessMask,
+		OpenVirtualDiskFlags Flags,
+		OpenVirtualDiskParameters Parameters,
+		VirtualDiskSafeHandle^ Handle)
+	{
+		VIRTUAL_STORAGE_TYPE* storageType = VirtualStorageType.GetNative();
+		pin_ptr<const wchar_t> szPath = PtrToStringChars(Path);
+
+		OPEN_VIRTUAL_DISK_PARAMETERS* parameters = Parameters.GetNative();
+
+		HANDLE tmpHandle = INVALID_HANDLE_VALUE;
+
+		DWORD apiResult = ::OpenVirtualDisk(storageType,
+			szPath,
+			(VIRTUAL_DISK_ACCESS_MASK)VirtualDiskAccessMask,
+			(OPEN_VIRTUAL_DISK_FLAG)Flags,
+			parameters,
+			&tmpHandle);
+
+		Parameters.ReleaseNative(false);
+		Handle->SetHandle(tmpHandle);
+
+		return (unsigned int)apiResult;
+	}
+
+	unsigned int VirtualDiskApi::GetVirtualDiskInformation(
+		VirtualDiskSafeHandle^ VirtualDiskHandle,
+		GetVirtualDiskInfo% VirtualDiskInfo)
+	{
+
+		return 0;
+	}
+
+}

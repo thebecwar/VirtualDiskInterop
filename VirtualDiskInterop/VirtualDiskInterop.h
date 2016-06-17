@@ -12,7 +12,7 @@ namespace VirtualDiskInterop {
 	public:
 #ifdef WIN10SUPPORT
 		static unsigned int ApplySnapshotVhdSet(
-			IntPtr VirtualDiskHandle, 
+			VirtualDiskSafeHandle^ VirtualDiskHandle, 
 			ApplySnapshotVhdsetParameters parameters, 
 			ApplySnapshotVhdsetFlags flags)
 		{
@@ -20,31 +20,31 @@ namespace VirtualDiskInterop {
 		}
 #endif
 		static unsigned int AddVirtualDiskParent(
-			IntPtr VirtualDiskHandle, 
+			VirtualDiskSafeHandle^ VirtualDiskHandle, 
 			String^ ParentPath)
 		{
 			return 0;
 		}
 		static unsigned int AttachVirtualDisk(
-			IntPtr VirtualDiskHandle, 
+			VirtualDiskSafeHandle^ VirtualDiskHandle, 
 			RawSecurityDescriptor^ SecurityDescriptor, 
 			AttachVirtualDiskFlags Flags, 
 			unsigned long ProviderSpecificFlags, 
 			AttachVirtualDiskParameters Parameters, 
-			IntPtr Overlapped) // TODO: OVERLAPPED structure
+			Overlapped^ overlapped)
 		{
 			return 0;
 		}
 		static unsigned int BreakMirrorVirtualDisk(
-			IntPtr VirtualDiskHandle)
+			VirtualDiskSafeHandle^ VirtualDiskHandle)
 		{
 			return 0;
 		}
 		static unsigned int CompactVirtualDisk(
-			IntPtr VirtualDiskHandle,
+			VirtualDiskSafeHandle^ VirtualDiskHandle,
 			CompactVirtualDiskFlags Flags,
 			CompactVirtualDiskParameters Parameters,
-			IntPtr Overlapped)
+			Overlapped^ overlapped)
 		{
 			return 0;
 		}
@@ -56,14 +56,14 @@ namespace VirtualDiskInterop {
 			CreateVirtualDiskFlags Flags,
 			unsigned long ProviderSpecificFlags,
 			CreateVirtualDiskParameters Parameters,
-			IntPtr Overlapped,
-			IntPtr% VirtualDiskHandle)
+			Overlapped^ overlapped,
+			VirtualDiskSafeHandle^ VirtualDiskHandle)
 		{
 			return 0;
 		}
 #ifdef WIN10SUPPORT
 		static unsigned int DeleteSnapshotVhdSet(
-			IntPtr VirtualDiskHandle,
+			VirtualDiskSafeHandle^ VirtualDiskHandle,
 			DeleteSnapshotVhdsetParameters Parameters,
 			DeleteSnapshotVhdsetFlags Flags)
 		{
@@ -71,82 +71,80 @@ namespace VirtualDiskInterop {
 		}
 #endif
 		static unsigned int DeleteVirtualDiskMetadata(
-			IntPtr VirtualDiskHandle,
+			VirtualDiskSafeHandle^ VirtualDiskHandle,
 			Guid Item)
 		{
 			return 0;
 		}
 		static unsigned int DetachVirtualDisk(
-			IntPtr VirtualDiskHandle,
+			VirtualDiskSafeHandle^ VirtualDiskHandle,
 			DetachVirtualDiskFlags Flags,
 			unsigned long ProviderSpecificFlags)
 		{
 			return 0;
 		}
 		static unsigned int EnumerateVirtualDiskMetadata(
-			IntPtr VirtualDiskHandle,
+			VirtualDiskSafeHandle^ VirtualDiskHandle,
 			unsigned long% NumberOfItems,
 			array<Guid>^% Items) // This _will_ change
 		{
 			return 0;
 		}
 		static unsigned int ExpandVirtualDisk(
-			IntPtr VirtualDiskHandle,
+			VirtualDiskSafeHandle^ VirtualDiskHandle,
 			ExpandVirtualDiskFlags Flags,
 			ExpandVirtualDiskParameters Parameters,
-			IntPtr Overlapped)
+			Overlapped^ overlapped)
 		{
 			return 0;
 		}
-		static unsigned int GetStorageDependencyInformation(IntPtr VirtualDiskHandle) // TODO
+		static unsigned int GetStorageDependencyInformation(VirtualDiskSafeHandle^ VirtualDiskHandle) // TODO
 		{
 			return 0;
 		}
 		static unsigned int GetVirtualDiskInformation(
-			IntPtr VirtualDiskHandle,
-			GetVirtualDiskInfo% VirtualDiskInfo) // May change, but will look something like this
-		{
-			return 0;
-		}
+			VirtualDiskSafeHandle^ VirtualDiskHandle,
+			GetVirtualDiskInfo% VirtualDiskInfo); // May change, but will look something like this
+		
 		static unsigned int GetVirtualDiskMetadata(
-			IntPtr VirtualDiskHandle,
+			VirtualDiskSafeHandle^ VirtualDiskHandle,
 			Guid item,
 			array<Byte>^% MetaData)
 		{
 			return 0;
 		}
 		static unsigned int GetVirtualDiskOperationProgress(
-			IntPtr VirtualDiskHandle,
-			IntPtr Overlapped,
+			VirtualDiskSafeHandle^ VirtualDiskHandle,
+			Overlapped^ overlapped,
 			VirtualDiskProgress% Progress)
 		{
 			return 0;
 		}
 		static unsigned int GetVirtualDiskPhysicalPath(
-			IntPtr VirtualDiskHandle,
+			VirtualDiskSafeHandle^ VirtualDiskHandle,
 			String^% DiskPath)
 		{
 			return 0;
 		}
 		static unsigned int MergeVirtualDisk(
-			IntPtr VirtualDiskHandle,
+			VirtualDiskSafeHandle^ VirtualDiskHandle,
 			MergeVirtualDiskFlags Flags,
 			MergeVirtualDiskParameters Parameters,
-			IntPtr Overlapped)
+			Overlapped^ overlapped)
 		{
 			return 0;
 		}
 		static unsigned int MirrorVirtualDisk(
-			IntPtr VirtualDiskHandle,
+			VirtualDiskSafeHandle^ VirtualDiskHandle,
 			MirrorVirtualDiskFlags Flags,
 			MirrorVirtualDiskParameters Parameters,
-			IntPtr Overlapped)
+			Overlapped^ overlapped)
 		{
 			return 0;
 		}
 #ifdef WIN10SUPPORT
 		static unsigned int ModifyVhdSet(
-			IntPtr VirtualDiskHandle,
+			VirtualDiskSafeHandle^ VirtualDiskHandle,
 			ModifyVhdsetParameters Parameters,
 			ModifyVhdsetFlags Flags)
 		{
@@ -160,12 +158,10 @@ namespace VirtualDiskInterop {
 			VirtualDiskAccessMasks VirtualDiskAccessMask,
 			OpenVirtualDiskFlags Flags,
 			OpenVirtualDiskParameters Parameters,
-			IntPtr% Handle)
-		{
-			return 0;
-		}
+			VirtualDiskSafeHandle^ Handle);
+
 		static unsigned int QueryChangesVirtualDisk(
-			IntPtr VirtualDiskHandle,
+			VirtualDiskSafeHandle^ VirtualDiskHandle,
 			String^ ChangeTrackingId,
 			unsigned long long ByteOffset,
 			unsigned long long ByteLength,
@@ -177,21 +173,21 @@ namespace VirtualDiskInterop {
 			return 0;
 		}
 		static unsigned int ResizeVirtualDisk(
-			IntPtr VirtualDiskHandle,
+			VirtualDiskSafeHandle^ VirtualDiskHandle,
 			ResizeVirtualDiskFlags Flags,
 			ResizeVirtualDiskParameters Parameters,
-			IntPtr Overlapped)
+			Overlapped^ overlapped)
 		{
 			return 0;
 		}
 		static unsigned int SetVirtualDiskInformation(
-			IntPtr VirtualDiskHandle,
+			VirtualDiskSafeHandle^ VirtualDiskHandle,
 			SetVirtualDiskInfo VirtualDiskInfo)
 		{
 			return 0;
 		}
 		static unsigned int SetVirtualDiskMetadata(
-			IntPtr VirtualDiskHandle,
+			VirtualDiskSafeHandle^ VirtualDiskHandle,
 			Guid Item,
 			array<Byte>^ MetaData)
 		{
@@ -199,7 +195,7 @@ namespace VirtualDiskInterop {
 		}
 #ifdef WIN10SUPPORT
 		static unsigned int TakeSnapshotVhdSet(
-			IntPtr VirtualDiskHandle,
+			VirtualDiskSafeHandle^ VirtualDiskHandle,
 			TakeSnapshotVhdsetParameters Parameters,
 			TakeSnapshotVhdsetFlags Flags)
 		{

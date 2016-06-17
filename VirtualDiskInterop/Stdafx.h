@@ -25,6 +25,8 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <virtdisk.h>
+#include <vcclr.h>
+
 
 
 // If targeting older SDK versions these macros may not be defined.

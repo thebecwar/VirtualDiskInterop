@@ -8,7 +8,7 @@ namespace VirtualDiskInterop
 	/// <summary>
 	/// Contains the virtual storage device type
 	/// </summary>
-	public enum class VirtualStorageDeviceTypes
+	public enum class VirtualStorageDeviceTypes : unsigned long
 	{
 		Unknown = VIRTUAL_STORAGE_TYPE_DEVICE_UNKNOWN,
 		Iso = VIRTUAL_STORAGE_TYPE_DEVICE_ISO,
