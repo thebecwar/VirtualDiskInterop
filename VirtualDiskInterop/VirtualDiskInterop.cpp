@@ -124,7 +124,7 @@ namespace VirtualDiskInterop
 		HANDLE hDisk = VirtualDiskHandle->DangerousGetHandle().ToPointer();
 
 
-		ULONG size = sizeof(GET_VIRTUAL_DISK_INFO);
+		ULONG size = 1024;
 		ULONG sizeUsed = 0;
 		DWORD apiResult = ::GetVirtualDiskInformation(hDisk, &size, info, &sizeUsed);
 
