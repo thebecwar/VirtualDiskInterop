@@ -70,10 +70,8 @@ namespace VirtualDiskInterop {
 #endif
 		static unsigned int DeleteVirtualDiskMetadata(
 			VirtualDiskSafeHandle^ VirtualDiskHandle,
-			Guid Item)
-		{
-			return 0;
-		}
+			Guid Item);
+
 		static unsigned int DetachVirtualDisk(
 			VirtualDiskSafeHandle^ VirtualDiskHandle,
 			DetachVirtualDiskFlags Flags,
@@ -83,11 +81,8 @@ namespace VirtualDiskInterop {
 		}
 		static unsigned int EnumerateVirtualDiskMetadata(
 			VirtualDiskSafeHandle^ VirtualDiskHandle,
-			unsigned long% NumberOfItems,
-			array<Guid>^% Items) // This _will_ change
-		{
-			return 0;
-		}
+			[Out] array<Guid>^% Items);
+		
 		static unsigned int ExpandVirtualDisk(
 			VirtualDiskSafeHandle^ VirtualDiskHandle,
 			ExpandVirtualDiskFlags Flags,
@@ -102,26 +97,24 @@ namespace VirtualDiskInterop {
 		}
 		static unsigned int GetVirtualDiskInformation(
 			VirtualDiskSafeHandle^ VirtualDiskHandle,
-			GetVirtualDiskInfo% VirtualDiskInfo); // May change, but will look something like this
+			GetVirtualDiskInfo% VirtualDiskInfo); // Note To Self: Don't change this from ref, User needs to set Version for call.
 		
 		static unsigned int GetVirtualDiskMetadata(
 			VirtualDiskSafeHandle^ VirtualDiskHandle,
 			Guid item,
-			array<Byte>^% MetaData)
-		{
-			return 0;
-		}
+			[Out] array<Byte>^% MetaData);
+
 		static unsigned int GetVirtualDiskOperationProgress(
 			VirtualDiskSafeHandle^ VirtualDiskHandle,
 			Overlapped^ overlapped,
-			VirtualDiskProgress% Progress)
+			[Out] VirtualDiskProgress% Progress)
 		{
 			return 0;
 		}
 
 		static unsigned int GetVirtualDiskPhysicalPath(
 			VirtualDiskSafeHandle^ VirtualDiskHandle,
-			String^% DiskPath);
+			[Out] String^% DiskPath);
 		
 		static unsigned int MergeVirtualDisk(
 			VirtualDiskSafeHandle^ VirtualDiskHandle,
@@ -164,8 +157,8 @@ namespace VirtualDiskInterop {
 			unsigned long long ByteLength,
 			/* QueryChangesVirtualDiskFlags Flags, */ // reserved parameter
 			array<QueryChangesVirtualDiskRange>^ Ranges,
-			unsigned long% RangeCount,
-			unsigned long% ProcessedLength)
+			[Out] unsigned long% RangeCount,
+			[Out] unsigned long% ProcessedLength)
 		{
 			return 0;
 		}
@@ -186,10 +179,8 @@ namespace VirtualDiskInterop {
 		static unsigned int SetVirtualDiskMetadata(
 			VirtualDiskSafeHandle^ VirtualDiskHandle,
 			Guid Item,
-			array<Byte>^ MetaData)
-		{
-			return 0;
-		}
+			array<Byte>^ MetaData);
+
 #ifdef WIN10SUPPORT
 		static unsigned int TakeSnapshotVhdSet(
 			VirtualDiskSafeHandle^ VirtualDiskHandle,

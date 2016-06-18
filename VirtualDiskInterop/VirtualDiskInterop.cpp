@@ -114,6 +114,56 @@ namespace VirtualDiskInterop
 		return apiResult;
 	}
 
+	unsigned int VirtualDiskApi::DeleteVirtualDiskMetadata(
+		VirtualDiskSafeHandle^ VirtualDiskHandle,
+		Guid Item)
+	{
+		GUID itemGuid = Helpers::ToGUID(Item);
+		return ::DeleteVirtualDiskMetadata(VirtualDiskHandle->DangerousGetHandle().ToPointer(), &itemGuid);
+	}
+
+	unsigned int VirtualDiskApi::EnumerateVirtualDiskMetadata(
+		VirtualDiskSafeHandle^ VirtualDiskHandle,
+		[Out] array<Guid>^% Items)
+	{
+		ULONG numberItems = 0;
+
+		DWORD apiResult = ::EnumerateVirtualDiskMetadata(
+			VirtualDiskHandle->DangerousGetHandle().ToPointer(),
+			&numberItems,
+			NULL);
+
+		if ((apiResult == ERROR_INSUFFICIENT_BUFFER || apiResult == ERROR_MORE_DATA) && numberItems > 0)
+		{
+			GUID* raw = new GUID[numberItems];
+
+			apiResult = ::EnumerateVirtualDiskMetadata(
+				VirtualDiskHandle->DangerousGetHandle().ToPointer(),
+				&numberItems,
+				raw);
+
+			if (apiResult == 0)
+			{
+				Items = gcnew array<Guid>(numberItems);
+				for (ULONG i = 0; i < numberItems; i++)
+				{
+					Items[i] = Helpers::FromGUID(raw[i]);
+				}
+			}
+			else
+			{
+				Items = gcnew array<Guid>(0);
+			}
+			delete raw;
+		}
+		else
+		{
+			Items = gcnew array<Guid>(0);
+		}
+
+		return apiResult;
+	}
+
 	unsigned int VirtualDiskApi::GetVirtualDiskInformation(
 		VirtualDiskSafeHandle^ VirtualDiskHandle,
 		GetVirtualDiskInfo% VirtualDiskInfo)
@@ -131,6 +181,48 @@ namespace VirtualDiskInterop
 		VirtualDiskInfo.ReleaseNative(true);
 
 		return (unsigned int)apiResult;
+	}
+
+	unsigned int VirtualDiskApi::GetVirtualDiskMetadata(
+		VirtualDiskSafeHandle^ VirtualDiskHandle,
+		Guid item,
+		array<Byte>^% MetaData)
+	{
+		GUID itemGuid = Helpers::ToGUID(item);
+		ULONG size = 0;
+		unsigned int apiResult = ::GetVirtualDiskMetadata(
+			VirtualDiskHandle->DangerousGetHandle().ToPointer(), 
+			&itemGuid, 
+			&size, 
+			NULL);
+		
+		if ((apiResult == ERROR_INSUFFICIENT_BUFFER || apiResult == ERROR_MORE_DATA) && size > 0)
+		{
+			PVOID raw = LocalAlloc(LPTR, size);
+			apiResult = ::GetVirtualDiskMetadata(
+				VirtualDiskHandle->DangerousGetHandle().ToPointer(),
+				&itemGuid,
+				&size,
+				raw);
+
+			if (apiResult == 0)
+			{
+				MetaData = gcnew array<Byte>(size);
+				pin_ptr<Byte> pinnedResult = &MetaData[0];
+				memcpy_s(pinnedResult, size, raw, size);
+			}
+			else
+			{
+				MetaData = gcnew array<Byte>(0);
+			}
+			LocalFree(raw);
+		}
+		else
+		{
+			MetaData = gcnew array<Byte>(0);
+		}
+
+		return apiResult;
 	}
 
 	unsigned int VirtualDiskApi::GetVirtualDiskPhysicalPath(
@@ -178,6 +270,22 @@ namespace VirtualDiskInterop
 		return (unsigned int)apiResult;
 	}
 
-	
+	unsigned int VirtualDiskApi::SetVirtualDiskMetadata(
+		VirtualDiskSafeHandle^ VirtualDiskHandle,
+		Guid Item,
+		array<Byte>^ MetaData)
+	{
+
+		GUID itemGuid = Helpers::ToGUID(Item);
+		pin_ptr<Byte> rawData = &MetaData[0];
+
+		unsigned int apiResult = ::SetVirtualDiskMetadata(
+			VirtualDiskHandle->DangerousGetHandle().ToPointer(),
+			&itemGuid,
+			(ULONG)MetaData->Length,
+			rawData);
+
+		return apiResult;
+	}
 
 }

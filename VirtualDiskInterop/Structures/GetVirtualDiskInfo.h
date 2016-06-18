@@ -148,7 +148,7 @@ namespace VirtualDiskInterop
 			{
 				int cbLen = (this->m_ParentLocationBuffer->Length + 1) * sizeof(Char);
 				pin_ptr<const WCHAR> pString = PtrToStringChars(this->m_ParentLocationBuffer);
-				memcpy(info->ParentLocation.ParentLocationBuffer, pString, cbLen);
+				memcpy_s(info->ParentLocation.ParentLocationBuffer, cbLen, pString, cbLen);
 			}
 		}
 		void ReadNativeStruct(GET_VIRTUAL_DISK_INFO* info)
@@ -278,7 +278,7 @@ namespace VirtualDiskInterop
 			{
 				int cbLen = (this->m_MostRecentId->Length + 1) * sizeof(Char);
 				pin_ptr<const WCHAR> strPtr = PtrToStringChars(this->m_MostRecentId);
-				memcpy(info->ChangeTrackingState.MostRecentId, strPtr, cbLen);
+				memcpy_s(info->ChangeTrackingState.MostRecentId, cbLen, strPtr, cbLen);
 			}
 		}
 		void ReadNativeStruct(GET_VIRTUAL_DISK_INFO* info)

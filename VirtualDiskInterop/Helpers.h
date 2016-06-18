@@ -56,7 +56,7 @@ namespace VirtualDiskInterop
 				int cb = (value->Length + 1) * sizeof(Char);
 				result = (LPWSTR)LocalAlloc(LPTR, cb);
 				pin_ptr<const WCHAR> pszNative = PtrToStringChars(value);
-				memcpy(result, pszNative, cb);
+				memcpy_s(result, cb, pszNative, cb);
 			}
 			return result;
 		}
