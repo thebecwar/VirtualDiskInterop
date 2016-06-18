@@ -75,6 +75,25 @@
 
 namespace VirtualDiskInterop
 {
+	unsigned int VirtualDiskApi::AddVirtualDiskParent(
+		VirtualDiskSafeHandle^ VirtualDiskHandle,
+		String^ ParentPath)
+	{
+
+		pin_ptr<const WCHAR> lpszPath = PtrToStringChars(ParentPath);
+		unsigned int apiResult = ::AddVirtualDiskParent(
+			VirtualDiskHandle->DangerousGetHandle().ToPointer(),
+			lpszPath);
+
+		return apiResult;
+	}
+
+	unsigned int VirtualDiskApi::BreakMirrorVirtualDisk(
+		VirtualDiskSafeHandle^ VirtualDiskHandle)
+	{
+		return ::BreakMirrorVirtualDisk(VirtualDiskHandle->DangerousGetHandle().ToPointer());
+	}
+
 	unsigned int VirtualDiskApi::CreateVirtualDisk(
 		VirtualDiskInterop::VirtualStorageType VirtualStorageType,
 		String^ Path,

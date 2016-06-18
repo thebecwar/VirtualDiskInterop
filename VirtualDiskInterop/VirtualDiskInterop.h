@@ -20,11 +20,9 @@ namespace VirtualDiskInterop {
 		}
 #endif
 		static unsigned int AddVirtualDiskParent(
-			VirtualDiskSafeHandle^ VirtualDiskHandle, 
-			String^ ParentPath)
-		{
-			return 0;
-		}
+			VirtualDiskSafeHandle^ VirtualDiskHandle,
+			String^ ParentPath);
+
 		static unsigned int AttachVirtualDisk(
 			VirtualDiskSafeHandle^ VirtualDiskHandle, 
 			RawSecurityDescriptor^ SecurityDescriptor, 
@@ -36,10 +34,8 @@ namespace VirtualDiskInterop {
 			return 0;
 		}
 		static unsigned int BreakMirrorVirtualDisk(
-			VirtualDiskSafeHandle^ VirtualDiskHandle)
-		{
-			return 0;
-		}
+			VirtualDiskSafeHandle^ VirtualDiskHandle);
+
 		static unsigned int CompactVirtualDisk(
 			VirtualDiskSafeHandle^ VirtualDiskHandle,
 			CompactVirtualDiskFlags Flags,
