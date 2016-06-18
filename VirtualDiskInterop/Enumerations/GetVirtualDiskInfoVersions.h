@@ -65,7 +65,7 @@ namespace VirtualDiskInterop
 		/// The physical sector size of the virtual disk.
 		/// This value is not supported before Windows 8 and Windows Server 2012.
 		/// </summary>
-		PhysicalSectorSize = GET_VIRTUAL_DISK_INFO_VHD_PHYSICAL_SECTOR_SIZE,
+		VhdPhysicalSectorSize = GET_VIRTUAL_DISK_INFO_VHD_PHYSICAL_SECTOR_SIZE,
 		
 		/// <summary>
 		/// The smallest safe minimum size of the virtual disk.

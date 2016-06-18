@@ -544,7 +544,7 @@ namespace VirtualDiskInterop
 				case GetVirtualDiskInfoVersions::PhysicalDisk:
 					this->m_PhysicalDisk.PopulateNativeStruct(this->m_NativeData);
 					break;
-				case GetVirtualDiskInfoVersions::PhysicalSectorSize:
+				case GetVirtualDiskInfoVersions::VhdPhysicalSectorSize:
 					this->m_NativeData->VhdPhysicalSectorSize = this->m_VhdPhysicalSectorSize;
 					break;
 				case GetVirtualDiskInfoVersions::SmallestSafeVirtualSize:
@@ -600,7 +600,7 @@ namespace VirtualDiskInterop
 					case GetVirtualDiskInfoVersions::PhysicalDisk:
 						this->m_PhysicalDisk.ReadNativeStruct(this->m_NativeData);
 						break;
-					case GetVirtualDiskInfoVersions::PhysicalSectorSize:
+					case GetVirtualDiskInfoVersions::VhdPhysicalSectorSize:
 						this->m_VhdPhysicalSectorSize = this->m_NativeData->VhdPhysicalSectorSize;
 						break;
 					case GetVirtualDiskInfoVersions::SmallestSafeVirtualSize:

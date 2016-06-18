@@ -118,12 +118,11 @@ namespace VirtualDiskInterop {
 		{
 			return 0;
 		}
+
 		static unsigned int GetVirtualDiskPhysicalPath(
 			VirtualDiskSafeHandle^ VirtualDiskHandle,
-			String^% DiskPath)
-		{
-			return 0;
-		}
+			String^% DiskPath);
+		
 		static unsigned int MergeVirtualDisk(
 			VirtualDiskSafeHandle^ VirtualDiskHandle,
 			MergeVirtualDiskFlags Flags,
@@ -200,5 +199,19 @@ namespace VirtualDiskInterop {
 			return 0;
 		}
 #endif
+
+		static property unsigned int BufferSize
+		{
+			unsigned int get()
+			{
+				return VirtualDiskApi::m_BufferSize;
+			}
+			void set(unsigned int value)
+			{
+				VirtualDiskApi::m_BufferSize = value;
+			}
+		}
+		private:
+			static unsigned int m_BufferSize = 1024;
 	};
 }

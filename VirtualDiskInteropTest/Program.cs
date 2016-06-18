@@ -19,7 +19,7 @@ namespace VirtualDiskInteropTest
 
             VirtualDiskSafeHandle diskHandle = new VirtualDiskSafeHandle();
 
-            string filename = "";
+            string filename = @"";
             
             OpenVirtualDiskParameters readParameters = new OpenVirtualDiskParameters();
             readParameters.Version = OpenVirtualDiskVersions.Version1;
@@ -31,8 +31,11 @@ namespace VirtualDiskInteropTest
                                                          readParameters, 
                                                          diskHandle);
 
+            string path = "";
+            result = VirtualDiskApi.GetVirtualDiskPhysicalPath(diskHandle, ref path);
+
             GetVirtualDiskInfo info = new GetVirtualDiskInfo();
-            info.Version = GetVirtualDiskInfoVersions.ParentLocation;
+            info.Version = GetVirtualDiskInfoVersions.Size;
 
             result = VirtualDiskApi.GetVirtualDiskInformation(diskHandle, ref info);
 

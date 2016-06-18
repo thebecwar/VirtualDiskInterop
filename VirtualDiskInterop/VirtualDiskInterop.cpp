@@ -118,19 +118,36 @@ namespace VirtualDiskInterop
 		VirtualDiskSafeHandle^ VirtualDiskHandle,
 		GetVirtualDiskInfo% VirtualDiskInfo)
 	{
-
-		GET_VIRTUAL_DISK_INFO* info = VirtualDiskInfo.GetNative(1024);
+		unsigned int bufferSize = VirtualDiskApi::m_BufferSize;
+		GET_VIRTUAL_DISK_INFO* info = VirtualDiskInfo.GetNative(bufferSize);
 
 		HANDLE hDisk = VirtualDiskHandle->DangerousGetHandle().ToPointer();
 
 
-		ULONG size = 1024;
+		ULONG size = bufferSize;
 		ULONG sizeUsed = 0;
 		DWORD apiResult = ::GetVirtualDiskInformation(hDisk, &size, info, &sizeUsed);
 
 		VirtualDiskInfo.ReleaseNative(true);
 
 		return (unsigned int)apiResult;
+	}
+
+	unsigned int VirtualDiskApi::GetVirtualDiskPhysicalPath(
+		VirtualDiskSafeHandle^ VirtualDiskHandle,
+		String^% DiskPath)
+	{
+		WCHAR szPath[MAX_PATH];
+		ULONG cbPathBuffer = sizeof(szPath);
+
+		unsigned int apiResult = ::GetVirtualDiskPhysicalPath(
+			VirtualDiskHandle->DangerousGetHandle().ToPointer(), 
+			&cbPathBuffer, 
+			szPath);
+
+		DiskPath = gcnew String(szPath);
+		
+		return apiResult;
 	}
 
 	unsigned int VirtualDiskApi::OpenVirtualDisk(
