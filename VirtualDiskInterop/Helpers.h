@@ -48,6 +48,18 @@ namespace VirtualDiskInterop
 			return result->ToArray();
 		}
 
+		static LPWSTR AllocString(String^ value)
+		{
+			LPWSTR result = NULL;
+			if (!String::IsNullOrEmpty(value))
+			{
+				int cb = (value->Length + 1) * sizeof(Char);
+				result = (LPWSTR)LocalAlloc(LPTR, cb);
+				pin_ptr<const WCHAR> pszNative = PtrToStringChars(value);
+				memcpy(result, pszNative, cb);
+			}
+			return result;
+		}
 
 	};
 }

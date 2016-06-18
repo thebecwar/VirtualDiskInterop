@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 using VirtualDiskInterop;
 
@@ -16,18 +17,18 @@ namespace VirtualDiskInteropTest
             storageType.DeviceId = VirtualStorageDeviceTypes.Vhdx;
             storageType.VendorId = VirtualStorageType.VendorIdMicrosoft;
 
-            string filename = @"C:\Users\Mark.HammerMill\Documents\DeleteThis.vhdx";
-
-            OpenVirtualDiskParameters parameters = new OpenVirtualDiskParameters();
-            parameters.Version = OpenVirtualDiskVersions.Version1;
-
             VirtualDiskSafeHandle diskHandle = new VirtualDiskSafeHandle();
 
+            string filename = "";
+            
+            OpenVirtualDiskParameters readParameters = new OpenVirtualDiskParameters();
+            readParameters.Version = OpenVirtualDiskVersions.Version1;
+            
             uint result = VirtualDiskApi.OpenVirtualDisk(storageType, 
                                                          filename, 
                                                          VirtualDiskAccessMasks.Read, 
                                                          OpenVirtualDiskFlags.None, 
-                                                         parameters, 
+                                                         readParameters, 
                                                          diskHandle);
 
             GetVirtualDiskInfo info = new GetVirtualDiskInfo();

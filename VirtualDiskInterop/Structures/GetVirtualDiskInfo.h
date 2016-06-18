@@ -614,12 +614,11 @@ namespace VirtualDiskInterop
 						break;
 					}
 				}
-			}
-			if (LocalFree(this->m_NativeData) == 0)
-			{
-				this->m_NativeData = NULL;
+				if (LocalFree(this->m_NativeData) == 0)
+				{
+					this->m_NativeData = NULL;
+				}
 			}
 		}
-
 	};
 }

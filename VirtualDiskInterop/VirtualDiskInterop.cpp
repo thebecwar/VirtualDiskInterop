@@ -75,6 +75,63 @@
 
 namespace VirtualDiskInterop
 {
+	unsigned int VirtualDiskApi::CreateVirtualDisk(
+		VirtualDiskInterop::VirtualStorageType VirtualStorageType,
+		String^ Path,
+		VirtualDiskAccessMasks VirtualDiskAccessMask,
+		RawSecurityDescriptor^ SecurityDescriptor,
+		CreateVirtualDiskFlags Flags,
+		unsigned long ProviderSpecificFlags,
+		CreateVirtualDiskParameters Parameters,
+		Overlapped^ overlapped,
+		VirtualDiskSafeHandle^ VirtualDiskHandle)
+	{
+		VIRTUAL_STORAGE_TYPE* storageType = VirtualStorageType.GetNative();
+		pin_ptr<const WCHAR> pszPath = PtrToStringChars(Path);
+		
+		// TODO: Security Descriptor
+
+		CREATE_VIRTUAL_DISK_PARAMETERS* parameters = Parameters.GetNative();
+		
+		HANDLE tmpHandle = INVALID_HANDLE_VALUE;
+
+		unsigned int apiResult = ::CreateVirtualDisk(
+			storageType,
+			pszPath,
+			(VIRTUAL_DISK_ACCESS_MASK)VirtualDiskAccessMask,
+			NULL,
+			(CREATE_VIRTUAL_DISK_FLAG)Flags,
+			ProviderSpecificFlags,
+			parameters,
+			overlapped != nullptr ? overlapped->NativeOverlapped : NULL,
+			&tmpHandle);
+
+		VirtualStorageType.ReleaseNative(false);
+		Parameters.ReleaseNative(false);
+
+		VirtualDiskHandle->SetHandle(tmpHandle);
+		
+		return apiResult;
+	}
+
+	unsigned int VirtualDiskApi::GetVirtualDiskInformation(
+		VirtualDiskSafeHandle^ VirtualDiskHandle,
+		GetVirtualDiskInfo% VirtualDiskInfo)
+	{
+
+		GET_VIRTUAL_DISK_INFO* info = VirtualDiskInfo.GetNative(1024);
+
+		HANDLE hDisk = VirtualDiskHandle->DangerousGetHandle().ToPointer();
+
+
+		ULONG size = sizeof(GET_VIRTUAL_DISK_INFO);
+		ULONG sizeUsed = 0;
+		DWORD apiResult = ::GetVirtualDiskInformation(hDisk, &size, info, &sizeUsed);
+
+		VirtualDiskInfo.ReleaseNative(true);
+
+		return (unsigned int)apiResult;
+	}
 
 	unsigned int VirtualDiskApi::OpenVirtualDisk(
 		VirtualDiskInterop::VirtualStorageType VirtualStorageType,
@@ -104,23 +161,6 @@ namespace VirtualDiskInterop
 		return (unsigned int)apiResult;
 	}
 
-	unsigned int VirtualDiskApi::GetVirtualDiskInformation(
-		VirtualDiskSafeHandle^ VirtualDiskHandle,
-		GetVirtualDiskInfo% VirtualDiskInfo)
-	{
-
-		GET_VIRTUAL_DISK_INFO* info = VirtualDiskInfo.GetNative(1024);
-
-		HANDLE hDisk = VirtualDiskHandle->DangerousGetHandle().ToPointer();
-
-
-		ULONG size = sizeof(GET_VIRTUAL_DISK_INFO);
-		ULONG sizeUsed = 0;
-		DWORD apiResult = ::GetVirtualDiskInformation(hDisk, &size, info, &sizeUsed);
-
-		VirtualDiskInfo.ReleaseNative(true);
-
-		return (unsigned int)apiResult;
-	}
+	
 
 }

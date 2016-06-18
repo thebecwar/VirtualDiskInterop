@@ -42,14 +42,111 @@ namespace VirtualDiskInterop
 				return this->m_WaitHandle;
 			}
 		}
-		
+		property unsigned long long Internal
+		{
+			unsigned long long get()
+			{
+				if (this->m_Overlapped != NULL)
+				{
+					return this->m_Overlapped->Internal;
+				}
+				return 0;
+			}
+			void set(unsigned long long value)
+			{
+				if (this->m_Overlapped != NULL)
+				{
+					this->m_Overlapped->Internal = value;
+				}
+			}
+		}
+		property unsigned long long InternalHigh
+		{
+			unsigned long long get()
+			{
+				if (this->m_Overlapped != NULL)
+				{
+					return this->m_Overlapped->InternalHigh;
+				}
+				return 0;
+			}
+			void set(unsigned long long value)
+			{
+				if (this->m_Overlapped != NULL)
+				{
+					this->m_Overlapped->InternalHigh = value;
+				}
+			}
+		}
+		property unsigned int Offset
+		{
+			unsigned int get()
+			{
+				if (this->m_Overlapped != NULL)
+				{
+					return this->m_Overlapped->Offset;
+				}
+				return 0;
+			}
+			void set(unsigned int value)
+			{
+				if (this->m_Overlapped != NULL)
+				{
+					this->m_Overlapped->Offset = value;
+				}
+			}
+		}
+		property unsigned int OffsetHigh
+		{
+			unsigned int get()
+			{
+				if (this->m_Overlapped != NULL)
+				{
+					return this->m_Overlapped->OffsetHigh;
+				}
+				return 0;
+			}
+			void set(unsigned int value)
+			{
+				if (this->m_Overlapped != NULL)
+				{
+					this->m_Overlapped->OffsetHigh = value;
+				}
+			}
+		}
+		property IntPtr Pointer
+		{
+			IntPtr get()
+			{
+				if (this->m_Overlapped != NULL)
+				{
+					return IntPtr(this->m_Overlapped->Pointer);
+				}
+				return IntPtr::Zero;
+			}
+			void set(IntPtr value)
+			{
+				if (this->m_Overlapped != NULL)
+				{
+					this->m_Overlapped->Pointer = value.ToPointer();
+				}
+			}
+		}
+
+	internal:
+		property OVERLAPPED* NativeOverlapped
+		{
+			OVERLAPPED* get()
+			{
+				return this->m_Overlapped;
+			}
+		}
+
 	private:
 		// Managed
 		ManualResetEvent^ m_WaitHandle;
-
 		// Unmanaged
 		OVERLAPPED* m_Overlapped;
-
 
 	};
 }

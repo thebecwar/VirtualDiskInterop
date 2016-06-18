@@ -57,10 +57,8 @@ namespace VirtualDiskInterop {
 			unsigned long ProviderSpecificFlags,
 			CreateVirtualDiskParameters Parameters,
 			Overlapped^ overlapped,
-			VirtualDiskSafeHandle^ VirtualDiskHandle)
-		{
-			return 0;
-		}
+			VirtualDiskSafeHandle^ VirtualDiskHandle);
+		
 #ifdef WIN10SUPPORT
 		static unsigned int DeleteSnapshotVhdSet(
 			VirtualDiskSafeHandle^ VirtualDiskHandle,
