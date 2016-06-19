@@ -79,10 +79,8 @@ namespace VirtualDiskInterop {
 			VirtualDiskSafeHandle^ VirtualDiskHandle,
 			ExpandVirtualDiskFlags Flags,
 			ExpandVirtualDiskParameters Parameters,
-			Overlapped^ overlapped)
-		{
-			return 0;
-		}
+			Overlapped^ overlapped);
+
 		static unsigned int GetStorageDependencyInformation(VirtualDiskSafeHandle^ VirtualDiskHandle) // TODO
 		{
 			return 0;

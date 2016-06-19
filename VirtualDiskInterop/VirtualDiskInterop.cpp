@@ -221,6 +221,24 @@ namespace VirtualDiskInterop
 		return apiResult;
 	}
 
+	unsigned int VirtualDiskApi::ExpandVirtualDisk(
+		VirtualDiskSafeHandle^ VirtualDiskHandle,
+		ExpandVirtualDiskFlags Flags,
+		ExpandVirtualDiskParameters Parameters,
+		Overlapped^ overlapped)
+	{
+		EXPAND_VIRTUAL_DISK_PARAMETERS* parameters = Parameters.GetNative();
+		
+		unsigned int apiResult = ::ExpandVirtualDisk(
+			VirtualDiskHandle->DangerousGetHandle().ToPointer(),
+			(EXPAND_VIRTUAL_DISK_FLAG)Flags,
+			parameters,
+			overlapped != nullptr ? overlapped->NativeOverlapped : NULL);
+
+		Parameters.ReleaseNative(false);
+		return apiResult;
+	}
+
 	unsigned int VirtualDiskApi::GetVirtualDiskInformation(
 		VirtualDiskSafeHandle^ VirtualDiskHandle,
 		GetVirtualDiskInfo% VirtualDiskInfo)
