@@ -396,7 +396,7 @@ namespace VirtualDiskInterop
 		return apiResult;
 	}
 
-	unsigned int MergeVirtualDisk(
+	unsigned int VirtualDiskApi::MergeVirtualDisk(
 		VirtualDiskSafeHandle^ VirtualDiskHandle,
 		MergeVirtualDiskFlags Flags,
 		MergeVirtualDiskParameters Parameters,
