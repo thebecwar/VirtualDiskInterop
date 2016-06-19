@@ -106,7 +106,7 @@ namespace VirtualDiskInterop
 			(ATTACH_VIRTUAL_DISK_FLAG)Flags,
 			(ULONG)ProviderSpecificFlags,
 			parameters,
-			overlapped->NativeOverlapped);
+			overlapped != nullptr ? overlapped->NativeOverlapped : NULL);
 
 		Parameters.ReleaseNative(false);
 		return apiResult;
