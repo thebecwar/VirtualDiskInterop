@@ -496,6 +496,50 @@ namespace VirtualDiskInterop
 		return (unsigned int)apiResult;
 	}
 
+	unsigned int VirtualDiskApi::QueryChangesVirtualDisk(
+		VirtualDiskSafeHandle^ VirtualDiskHandle,
+		String^ ChangeTrackingId,
+		unsigned long long ByteOffset,
+		unsigned long long ByteLength,
+		/* QueryChangesVirtualDiskFlags Flags, */ // reserved parameter
+		[Out] array<QueryChangesVirtualDiskRange>^% Ranges,
+		[Out] unsigned long long% ProcessedLength)
+	{
+		QUERY_CHANGES_VIRTUAL_DISK_RANGE ranges[100];
+		ULONG rangeCount = 100;
+
+		pin_ptr<const WCHAR> trackingId = PtrToStringChars(ChangeTrackingId);
+		ULONG64 processed = 0;
+
+		unsigned int apiResult = ::QueryChangesVirtualDisk(
+			VirtualDiskHandle->DangerousGetHandle().ToPointer(),
+			trackingId,
+			ByteOffset,
+			ByteLength,
+			QUERY_CHANGES_VIRTUAL_DISK_FLAG_NONE,
+			ranges,
+			&rangeCount,
+			&processed);
+		
+		if (apiResult == 0 || apiResult == ERROR_MORE_DATA || apiResult == ERROR_INSUFFICIENT_BUFFER)
+		{
+			Ranges = gcnew array<QueryChangesVirtualDiskRange>(rangeCount);
+			if (rangeCount > 0)
+			{
+				for (unsigned int i = 0; i < rangeCount; i++)
+				{
+					Ranges[i].ByteLength = ranges[i].ByteLength;
+					Ranges[i].ByteOffset = ranges[i].ByteOffset;
+					Ranges[i].Reserved = ranges[i].Reserved;
+				}
+			}
+		}
+
+		ProcessedLength = processed;
+
+		return apiResult;
+	}
+
 	unsigned int VirtualDiskApi::SetVirtualDiskMetadata(
 		VirtualDiskSafeHandle^ VirtualDiskHandle,
 		Guid Item,

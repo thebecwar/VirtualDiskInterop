@@ -134,12 +134,9 @@ namespace VirtualDiskInterop {
 			unsigned long long ByteOffset,
 			unsigned long long ByteLength,
 			/* QueryChangesVirtualDiskFlags Flags, */ // reserved parameter
-			array<QueryChangesVirtualDiskRange>^ Ranges,
-			[Out] unsigned long% RangeCount,
-			[Out] unsigned long% ProcessedLength)
-		{
-			return 0;
-		}
+			[Out] array<QueryChangesVirtualDiskRange>^% Ranges,
+			[Out] unsigned long long% ProcessedLength);
+		
 		static unsigned int ResizeVirtualDisk(
 			VirtualDiskSafeHandle^ VirtualDiskHandle,
 			ResizeVirtualDiskFlags Flags,
