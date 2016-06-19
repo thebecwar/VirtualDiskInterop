@@ -10,18 +10,16 @@ namespace VirtualDiskInterop {
 	public ref class VirtualDiskApi
 	{
 	public:
-#ifdef WIN10SUPPORT
-		static unsigned int ApplySnapshotVhdSet(
-			VirtualDiskSafeHandle^ VirtualDiskHandle, 
-			ApplySnapshotVhdsetParameters parameters, 
-			ApplySnapshotVhdsetFlags flags)
-		{
-			return 0;
-		}
-#endif
 		static unsigned int AddVirtualDiskParent(
 			VirtualDiskSafeHandle^ VirtualDiskHandle,
 			String^ ParentPath);
+
+#ifdef WIN10SUPPORT
+		static unsigned int ApplySnapshotVhdSet(
+			VirtualDiskSafeHandle^ VirtualDiskHandle,
+			ApplySnapshotVhdsetParameters Parameters,
+			ApplySnapshotVhdsetFlags Flags);
+#endif
 
 		static unsigned int AttachVirtualDisk(
 			VirtualDiskSafeHandle^ VirtualDiskHandle,

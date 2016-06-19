@@ -88,6 +88,24 @@ namespace VirtualDiskInterop
 		return apiResult;
 	}
 
+#ifdef WIN10SUPPORT
+	unsigned int VirtualDiskApi::ApplySnapshotVhdSet(
+		VirtualDiskSafeHandle^ VirtualDiskHandle,
+		ApplySnapshotVhdsetParameters Parameters,
+		ApplySnapshotVhdsetFlags Flags)
+	{
+		APPLY_SNAPSHOT_VHDSET_PARAMETERS* parameters = Parameters.GetNative();
+
+		unsigned int apiResult = ::ApplySnapshotVhdSet(
+			VirtualDiskHandle->DangerousGetHandle().ToPointer(),
+			parameters,
+			(APPLY_SNAPSHOT_VHDSET_FLAG)Flags);
+
+		Parameters.ReleaseNative(false);
+		return apiResult;
+	}
+#endif
+
 	unsigned int VirtualDiskApi::AttachVirtualDisk(
 		VirtualDiskSafeHandle^ VirtualDiskHandle,
 		RawSecurityDescriptor^ SecurityDescriptor,
