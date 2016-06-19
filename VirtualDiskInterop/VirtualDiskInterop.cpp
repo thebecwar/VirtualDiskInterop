@@ -396,6 +396,24 @@ namespace VirtualDiskInterop
 		return apiResult;
 	}
 
+	unsigned int MergeVirtualDisk(
+		VirtualDiskSafeHandle^ VirtualDiskHandle,
+		MergeVirtualDiskFlags Flags,
+		MergeVirtualDiskParameters Parameters,
+		Overlapped^ overlapped)
+	{
+		MERGE_VIRTUAL_DISK_PARAMETERS* parameters = Parameters.GetNative();
+
+		unsigned int apiResult = ::MergeVirtualDisk(
+			VirtualDiskHandle->DangerousGetHandle().ToPointer(),
+			(MERGE_VIRTUAL_DISK_FLAG)Flags,
+			parameters,
+			overlapped != nullptr ? overlapped->NativeOverlapped : NULL);
+
+		Parameters.ReleaseNative(false);
+		return apiResult;
+	}
+
 	unsigned int VirtualDiskApi::OpenVirtualDisk(
 		VirtualDiskInterop::VirtualStorageType VirtualStorageType,
 		String^ Path,

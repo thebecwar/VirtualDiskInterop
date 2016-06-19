@@ -107,10 +107,8 @@ namespace VirtualDiskInterop {
 			VirtualDiskSafeHandle^ VirtualDiskHandle,
 			MergeVirtualDiskFlags Flags,
 			MergeVirtualDiskParameters Parameters,
-			Overlapped^ overlapped)
-		{
-			return 0;
-		}
+			Overlapped^ overlapped);
+		
 		static unsigned int MirrorVirtualDisk(
 			VirtualDiskSafeHandle^ VirtualDiskHandle,
 			MirrorVirtualDiskFlags Flags,
