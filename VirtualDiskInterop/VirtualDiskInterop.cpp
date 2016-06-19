@@ -540,6 +540,39 @@ namespace VirtualDiskInterop
 		return apiResult;
 	}
 
+	unsigned int VirtualDiskApi::ResizeVirtualDisk(
+		VirtualDiskSafeHandle^ VirtualDiskHandle,
+		ResizeVirtualDiskFlags Flags,
+		ResizeVirtualDiskParameters Parameters,
+		Overlapped^ overlapped)
+	{
+		RESIZE_VIRTUAL_DISK_PARAMETERS* parameters = Parameters.GetNative();
+
+		unsigned int apiResult = ::ResizeVirtualDisk(
+			VirtualDiskHandle->DangerousGetHandle().ToPointer(),
+			(RESIZE_VIRTUAL_DISK_FLAG)Flags,
+			parameters,
+			overlapped != nullptr ? overlapped->NativeOverlapped : NULL);
+
+		Parameters.ReleaseNative(false);
+
+		return apiResult;
+	}
+
+	unsigned int VirtualDiskApi::SetVirtualDiskInformation(
+		VirtualDiskSafeHandle^ VirtualDiskHandle,
+		SetVirtualDiskInfo VirtualDiskInfo)
+	{
+		SET_VIRTUAL_DISK_INFO* info = VirtualDiskInfo.GetNative();
+
+		unsigned int apiResult = ::SetVirtualDiskInformation(
+			VirtualDiskHandle->DangerousGetHandle().ToPointer(),
+			info);
+
+		VirtualDiskInfo.ReleaseNative(false);
+		return apiResult;
+	}
+
 	unsigned int VirtualDiskApi::SetVirtualDiskMetadata(
 		VirtualDiskSafeHandle^ VirtualDiskHandle,
 		Guid Item,

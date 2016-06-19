@@ -141,16 +141,12 @@ namespace VirtualDiskInterop {
 			VirtualDiskSafeHandle^ VirtualDiskHandle,
 			ResizeVirtualDiskFlags Flags,
 			ResizeVirtualDiskParameters Parameters,
-			Overlapped^ overlapped)
-		{
-			return 0;
-		}
+			Overlapped^ overlapped);
+
 		static unsigned int SetVirtualDiskInformation(
 			VirtualDiskSafeHandle^ VirtualDiskHandle,
-			SetVirtualDiskInfo VirtualDiskInfo)
-		{
-			return 0;
-		}
+			SetVirtualDiskInfo VirtualDiskInfo);
+		
 		static unsigned int SetVirtualDiskMetadata(
 			VirtualDiskSafeHandle^ VirtualDiskHandle,
 			Guid Item,
