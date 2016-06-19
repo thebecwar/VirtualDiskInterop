@@ -113,10 +113,8 @@ namespace VirtualDiskInterop {
 			VirtualDiskSafeHandle^ VirtualDiskHandle,
 			MirrorVirtualDiskFlags Flags,
 			MirrorVirtualDiskParameters Parameters,
-			Overlapped^ overlapped)
-		{
-			return 0;
-		}
+			Overlapped^ overlapped);
+		
 #ifdef WIN10SUPPORT
 		static unsigned int ModifyVhdSet(
 			VirtualDiskSafeHandle^ VirtualDiskHandle,

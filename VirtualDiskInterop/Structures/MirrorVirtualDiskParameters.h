@@ -20,6 +20,26 @@ namespace VirtualDiskInterop
 		}
 	private:
 		String^ m_MirrorVirtualDiskPath;
+		LPWSTR m_NativeMirrorVirtualDiskPath;
+	internal:
+		void PopulateNativeStruct(MIRROR_VIRTUAL_DISK_PARAMETERS* parameters)
+		{
+			this->m_NativeMirrorVirtualDiskPath = Helpers::AllocString(this->m_MirrorVirtualDiskPath);
+			parameters->Version1.MirrorVirtualDiskPath = this->m_NativeMirrorVirtualDiskPath;
+		}
+		void ReadNativeStruct(MIRROR_VIRTUAL_DISK_PARAMETERS* parameters)
+		{
+			this->m_MirrorVirtualDiskPath = gcnew String(parameters->Version1.MirrorVirtualDiskPath);
+			this->ReleaseNativeData();
+		}
+		void ReleaseNativeData()
+		{
+			if (this->m_NativeMirrorVirtualDiskPath)
+			{
+				LocalFree(this->m_NativeMirrorVirtualDiskPath);
+				this->m_NativeMirrorVirtualDiskPath = NULL;
+			}
+		}
 	};
 
 	public value class MirrorVirtualDiskParameters
@@ -50,5 +70,44 @@ namespace VirtualDiskInterop
 	private:
 		MirrorVirtualDiskVersions m_Version;
 		MirrorVirtualDiskParametersVersion1 m_Version1;
+	internal:
+		MIRROR_VIRTUAL_DISK_PARAMETERS* m_NativeData = NULL;
+		MIRROR_VIRTUAL_DISK_PARAMETERS* GetNative()
+		{
+			if (this->m_NativeData)
+			{
+				delete this->m_NativeData;
+				this->m_NativeData = NULL;
+			}
+			this->m_NativeData = new MIRROR_VIRTUAL_DISK_PARAMETERS();
+			this->m_NativeData->Version = (MIRROR_VIRTUAL_DISK_VERSION)this->m_Version;
+			switch (this->m_Version)
+			{
+			case MirrorVirtualDiskVersions::Version1:
+				this->m_Version1.PopulateNativeStruct(this->m_NativeData);
+				break;
+			}
+			return this->m_NativeData;
+		}
+		void ReleaseNative(bool updateData)
+		{
+			if (this->m_NativeData)
+			{
+				if (updateData)
+				{
+					this->m_Version = (MirrorVirtualDiskVersions)this->m_NativeData->Version;
+					switch (this->m_Version)
+					{
+					case MirrorVirtualDiskVersions::Version1:
+						this->m_Version1.ReadNativeStruct(this->m_NativeData);
+						break;
+					}
+				}
+
+				this->m_Version1.ReleaseNativeData();
+				delete this->m_NativeData;
+				this->m_NativeData = NULL;
+			}
+		}
 	};
 }
