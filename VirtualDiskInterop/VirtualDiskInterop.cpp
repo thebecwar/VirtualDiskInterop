@@ -88,6 +88,30 @@ namespace VirtualDiskInterop
 		return apiResult;
 	}
 
+	unsigned int VirtualDiskApi::AttachVirtualDisk(
+		VirtualDiskSafeHandle^ VirtualDiskHandle,
+		RawSecurityDescriptor^ SecurityDescriptor,
+		AttachVirtualDiskFlags Flags,
+		unsigned long ProviderSpecificFlags,
+		AttachVirtualDiskParameters Parameters,
+		Overlapped^ overlapped)
+	{
+		//TODO: Security Descriptor
+
+		ATTACH_VIRTUAL_DISK_PARAMETERS* parameters = Parameters.GetNative();
+
+		unsigned int apiResult = ::AttachVirtualDisk(
+			VirtualDiskHandle->DangerousGetHandle().ToPointer(),
+			NULL,
+			(ATTACH_VIRTUAL_DISK_FLAG)Flags,
+			(ULONG)ProviderSpecificFlags,
+			parameters,
+			overlapped->NativeOverlapped);
+
+		Parameters.ReleaseNative(false);
+		return apiResult;
+	}
+
 	unsigned int VirtualDiskApi::BreakMirrorVirtualDisk(
 		VirtualDiskSafeHandle^ VirtualDiskHandle)
 	{
@@ -141,6 +165,20 @@ namespace VirtualDiskInterop
 		return ::DeleteVirtualDiskMetadata(VirtualDiskHandle->DangerousGetHandle().ToPointer(), &itemGuid);
 	}
 
+	unsigned int VirtualDiskApi::DetachVirtualDisk(
+		VirtualDiskSafeHandle^ VirtualDiskHandle,
+		DetachVirtualDiskFlags Flags,
+		unsigned long ProviderSpecificFlags)
+	{
+
+		unsigned int apiResult = ::DetachVirtualDisk(
+			VirtualDiskHandle->DangerousGetHandle().ToPointer(),
+			(DETACH_VIRTUAL_DISK_FLAG)Flags,
+			ProviderSpecificFlags);
+
+		return apiResult;
+	}
+
 	unsigned int VirtualDiskApi::EnumerateVirtualDiskMetadata(
 		VirtualDiskSafeHandle^ VirtualDiskHandle,
 		[Out] array<Guid>^% Items)
@@ -191,7 +229,6 @@ namespace VirtualDiskInterop
 		GET_VIRTUAL_DISK_INFO* info = VirtualDiskInfo.GetNative(bufferSize);
 
 		HANDLE hDisk = VirtualDiskHandle->DangerousGetHandle().ToPointer();
-
 
 		ULONG size = bufferSize;
 		ULONG sizeUsed = 0;

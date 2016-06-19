@@ -24,6 +24,15 @@ namespace VirtualDiskInterop
 		}
 	private:
 		unsigned long m_Reserved = 0;
+	internal:
+		void PopulateNativeStruct(ATTACH_VIRTUAL_DISK_PARAMETERS* parameters)
+		{
+			parameters->Version1.Reserved = 0;
+		}
+		void ReadNativeStruct(ATTACH_VIRTUAL_DISK_PARAMETERS* parameters)
+		{
+			this->m_Reserved = parameters->Version1.Reserved;
+		}
 	};
 
 	/// <summary>
@@ -60,5 +69,42 @@ namespace VirtualDiskInterop
 	private:
 		AttachVirtualDiskVersions m_Version;
 		AttachVirtualDiskParametersVersion1 m_Version1;
+	internal:
+		ATTACH_VIRTUAL_DISK_PARAMETERS* m_NativeData;
+		ATTACH_VIRTUAL_DISK_PARAMETERS* GetNative()
+		{
+			if (this->m_NativeData)
+			{
+				delete this->m_NativeData;
+			}
+			this->m_NativeData = new ATTACH_VIRTUAL_DISK_PARAMETERS();
+			this->m_NativeData->Version = (ATTACH_VIRTUAL_DISK_VERSION)this->m_Version;
+			switch (this->m_Version)
+			{
+			case AttachVirtualDiskVersions::Version1:
+				this->m_Version1.PopulateNativeStruct(this->m_NativeData);
+				break;
+			}
+			return this->m_NativeData;
+		}
+		void ReleaseNative(bool updateData)
+		{
+			if (this->m_NativeData)
+			{
+				if (updateData)
+				{
+					this->m_Version = (AttachVirtualDiskVersions)this->m_NativeData->Version;
+					switch (this->m_Version)
+					{
+					case AttachVirtualDiskVersions::Version1:
+						this->m_Version1.ReadNativeStruct(this->m_NativeData);
+						break;
+					}
+				}
+				
+				delete this->m_NativeData;
+				this->m_NativeData = NULL;
+			}
+		}
 	};
 }

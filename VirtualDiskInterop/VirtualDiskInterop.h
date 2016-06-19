@@ -24,15 +24,13 @@ namespace VirtualDiskInterop {
 			String^ ParentPath);
 
 		static unsigned int AttachVirtualDisk(
-			VirtualDiskSafeHandle^ VirtualDiskHandle, 
-			RawSecurityDescriptor^ SecurityDescriptor, 
-			AttachVirtualDiskFlags Flags, 
-			unsigned long ProviderSpecificFlags, 
-			AttachVirtualDiskParameters Parameters, 
-			Overlapped^ overlapped)
-		{
-			return 0;
-		}
+			VirtualDiskSafeHandle^ VirtualDiskHandle,
+			RawSecurityDescriptor^ SecurityDescriptor,
+			AttachVirtualDiskFlags Flags,
+			unsigned long ProviderSpecificFlags,
+			AttachVirtualDiskParameters Parameters,
+			Overlapped^ overlapped);
+		
 		static unsigned int BreakMirrorVirtualDisk(
 			VirtualDiskSafeHandle^ VirtualDiskHandle);
 
@@ -71,10 +69,8 @@ namespace VirtualDiskInterop {
 		static unsigned int DetachVirtualDisk(
 			VirtualDiskSafeHandle^ VirtualDiskHandle,
 			DetachVirtualDiskFlags Flags,
-			unsigned long ProviderSpecificFlags)
-		{
-			return 0;
-		}
+			unsigned long ProviderSpecificFlags);
+
 		static unsigned int EnumerateVirtualDiskMetadata(
 			VirtualDiskSafeHandle^ VirtualDiskHandle,
 			[Out] array<Guid>^% Items);
