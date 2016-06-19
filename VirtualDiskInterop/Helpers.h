@@ -5,10 +5,25 @@ using namespace System::Collections::Generic;
 
 namespace VirtualDiskInterop
 {
-	// private at the class level == internal to the assembly.
-	private ref class Helpers
+	public ref class Helpers
 	{
 	public:
+		static String^ GetSystemErrorMessage(unsigned int errorCode)
+		{
+			WCHAR buffer[500];
+			memset(buffer, 0, 500 * sizeof(WCHAR));
+			FormatMessageW(
+				FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+				NULL,
+				errorCode,
+				MAKELANGID(LANG_NEUTRAL, SUBLANG_NEUTRAL),
+				buffer,
+				500,
+				NULL);
+			return gcnew String(buffer);
+		}
+
+	internal:
 		// ToGUID and FromGUID from https://msdn.microsoft.com/en-us/library/wb8scw8f.aspx
 		static Guid FromGUID(_GUID guid) {
 			return Guid(guid.Data1, guid.Data2, guid.Data3,
