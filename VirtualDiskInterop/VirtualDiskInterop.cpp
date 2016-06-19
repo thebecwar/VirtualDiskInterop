@@ -275,6 +275,33 @@ namespace VirtualDiskInterop
 		return apiResult;
 	}
 
+	unsigned int VirtualDiskApi::GetStorageDependencyInformation(
+		IntPtr Handle,
+		GetStorageDependencyFlags Flags,
+		[Out] VirtualDiskInterop::StorageDependencyInfo% StorageDependencyInfo)
+	{
+		STORAGE_DEPENDENCY_INFO* info = StorageDependencyInfo.GetNative(VirtualDiskApi::BufferSize);
+
+		ULONG sizeUsed = 0;
+		unsigned int apiResult = ::GetStorageDependencyInformation(
+			Handle.ToPointer(),
+			(GET_STORAGE_DEPENDENCY_FLAG)Flags,
+			(ULONG)VirtualDiskApi::BufferSize,
+			info,
+			&sizeUsed);
+
+		StorageDependencyInfo.ReleaseNative(true);
+
+		return apiResult;
+	}
+	unsigned int VirtualDiskApi::GetStorageDependencyInformation(
+		VirtualDiskSafeHandle^ VirtualDiskHandle,
+		GetStorageDependencyFlags Flags,
+		[Out] VirtualDiskInterop::StorageDependencyInfo% StorageDependencyInfo)
+	{
+		return VirtualDiskApi::GetStorageDependencyInformation(VirtualDiskHandle->DangerousGetHandle(), Flags, StorageDependencyInfo);
+	}
+
 	unsigned int VirtualDiskApi::GetVirtualDiskInformation(
 		VirtualDiskSafeHandle^ VirtualDiskHandle,
 		GetVirtualDiskInfo% VirtualDiskInfo)

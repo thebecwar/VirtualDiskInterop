@@ -42,9 +42,9 @@ namespace VirtualDiskInterop
 				return this->m_WaitHandle;
 			}
 		}
-		property unsigned long long Internal
+		property unsigned long Internal
 		{
-			unsigned long long get()
+			unsigned long get()
 			{
 				if (this->m_Overlapped != NULL)
 				{
@@ -52,7 +52,7 @@ namespace VirtualDiskInterop
 				}
 				return 0;
 			}
-			void set(unsigned long long value)
+			void set(unsigned long value)
 			{
 				if (this->m_Overlapped != NULL)
 				{
@@ -60,9 +60,9 @@ namespace VirtualDiskInterop
 				}
 			}
 		}
-		property unsigned long long InternalHigh
+		property unsigned long InternalHigh
 		{
-			unsigned long long get()
+			unsigned long get()
 			{
 				if (this->m_Overlapped != NULL)
 				{
@@ -70,7 +70,7 @@ namespace VirtualDiskInterop
 				}
 				return 0;
 			}
-			void set(unsigned long long value)
+			void set(unsigned long value)
 			{
 				if (this->m_Overlapped != NULL)
 				{

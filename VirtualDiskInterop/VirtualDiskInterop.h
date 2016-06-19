@@ -76,10 +76,15 @@ namespace VirtualDiskInterop {
 			ExpandVirtualDiskParameters Parameters,
 			Overlapped^ overlapped);
 
-		static unsigned int GetStorageDependencyInformation(VirtualDiskSafeHandle^ VirtualDiskHandle) // TODO
-		{
-			return 0;
-		}
+		static unsigned int GetStorageDependencyInformation(
+			IntPtr Handle,
+			GetStorageDependencyFlags Flags,
+			VirtualDiskInterop::StorageDependencyInfo% StorageDependencyInfo); // Note To Self: Don't change this from ref, User needs to set Version for call.
+		static unsigned int GetStorageDependencyInformation(
+			VirtualDiskSafeHandle^ VirtualDiskHandle,
+			GetStorageDependencyFlags Flags,
+			VirtualDiskInterop::StorageDependencyInfo% StorageDependencyInfo); // Note To Self: Don't change this from ref, User needs to set Version for call.
+		
 		static unsigned int GetVirtualDiskInformation(
 			VirtualDiskSafeHandle^ VirtualDiskHandle,
 			GetVirtualDiskInfo% VirtualDiskInfo); // Note To Self: Don't change this from ref, User needs to set Version for call.
@@ -182,6 +187,18 @@ namespace VirtualDiskInterop {
 			void set(unsigned int value)
 			{
 				VirtualDiskApi::m_BufferSize = value;
+			}
+		}
+
+		static property unsigned int StringBufferSize
+		{
+			unsigned int get()
+			{
+				return StorageDependencyInfo::StringBufferSize;
+			}
+			void set(unsigned int value)
+			{
+				StorageDependencyInfo::StringBufferSize = value;
 			}
 		}
 		private:
