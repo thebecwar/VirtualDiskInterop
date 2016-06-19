@@ -450,6 +450,24 @@ namespace VirtualDiskInterop
 		return apiResult;
 	}
 
+#ifdef WIN10SUPPORT
+	unsigned int VirtualDiskApi::ModifyVhdSet(
+		VirtualDiskSafeHandle^ VirtualDiskHandle,
+		ModifyVhdsetParameters Parameters,
+		ModifyVhdsetFlags Flags)
+	{
+		MODIFY_VHDSET_PARAMETERS* parameters = Parameters.GetNative();
+
+		unsigned int apiResult = ::ModifyVhdSet(
+			VirtualDiskHandle->DangerousGetHandle().ToPointer(),
+			parameters,
+			(MODIFY_VHDSET_FLAG)Flags);
+
+		Parameters.ReleaseNative(false);
+		return apiResult;
+	}
+#endif
+
 	unsigned int VirtualDiskApi::OpenVirtualDisk(
 		VirtualDiskInterop::VirtualStorageType VirtualStorageType,
 		String^ Path,

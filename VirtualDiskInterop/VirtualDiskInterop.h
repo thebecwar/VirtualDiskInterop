@@ -117,10 +117,7 @@ namespace VirtualDiskInterop {
 		static unsigned int ModifyVhdSet(
 			VirtualDiskSafeHandle^ VirtualDiskHandle,
 			ModifyVhdsetParameters Parameters,
-			ModifyVhdsetFlags Flags)
-		{
-			return 0;
-		}
+			ModifyVhdsetFlags Flags);
 #endif
 
 		static unsigned int OpenVirtualDisk(
