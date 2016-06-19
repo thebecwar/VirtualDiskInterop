@@ -60,7 +60,7 @@ namespace VirtualDiskInterop
 		ExpandVirtualDiskVersions m_Version;
 		ExpandVirtualDiskParametersVersion1 m_Version1;
 	internal:
-		EXPAND_VIRTUAL_DISK_PARAMETERS* m_NativeData;
+		EXPAND_VIRTUAL_DISK_PARAMETERS* m_NativeData = NULL;
 		EXPAND_VIRTUAL_DISK_PARAMETERS* GetNative()
 		{
 			if (this->m_NativeData)

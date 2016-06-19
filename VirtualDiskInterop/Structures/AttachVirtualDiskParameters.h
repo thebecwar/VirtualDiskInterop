@@ -70,7 +70,7 @@ namespace VirtualDiskInterop
 		AttachVirtualDiskVersions m_Version;
 		AttachVirtualDiskParametersVersion1 m_Version1;
 	internal:
-		ATTACH_VIRTUAL_DISK_PARAMETERS* m_NativeData;
+		ATTACH_VIRTUAL_DISK_PARAMETERS* m_NativeData = NULL;
 		ATTACH_VIRTUAL_DISK_PARAMETERS* GetNative()
 		{
 			if (this->m_NativeData)

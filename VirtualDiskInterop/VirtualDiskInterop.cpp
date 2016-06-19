@@ -118,6 +118,24 @@ namespace VirtualDiskInterop
 		return ::BreakMirrorVirtualDisk(VirtualDiskHandle->DangerousGetHandle().ToPointer());
 	}
 
+	unsigned int VirtualDiskApi::CompactVirtualDisk(
+		VirtualDiskSafeHandle^ VirtualDiskHandle,
+		CompactVirtualDiskFlags Flags,
+		CompactVirtualDiskParameters Parameters,
+		Overlapped^ overlapped)
+	{
+		COMPACT_VIRTUAL_DISK_PARAMETERS* parameters = Parameters.GetNative();
+
+		unsigned int apiResult = ::CompactVirtualDisk(
+			VirtualDiskHandle->DangerousGetHandle().ToPointer(),
+			(COMPACT_VIRTUAL_DISK_FLAG)Flags,
+			parameters,
+			overlapped != nullptr ? overlapped->NativeOverlapped : NULL);
+
+		Parameters.ReleaseNative(false);
+		return apiResult;
+	}
+
 	unsigned int VirtualDiskApi::CreateVirtualDisk(
 		VirtualDiskInterop::VirtualStorageType VirtualStorageType,
 		String^ Path,
@@ -156,6 +174,24 @@ namespace VirtualDiskInterop
 		
 		return apiResult;
 	}
+
+#ifdef WIN10SUPPORT
+	unsigned int VirtualDiskApi::DeleteSnapshotVhdSet(
+		VirtualDiskSafeHandle^ VirtualDiskHandle,
+		DeleteSnapshotVhdsetParameters Parameters,
+		DeleteSnapshotVhdsetFlags Flags)
+	{
+		DELETE_SNAPSHOT_VHDSET_PARAMETERS* parameters = Parameters.GetNative();
+
+		unsigned int apiResult = ::DeleteSnapshotVhdSet(
+			VirtualDiskHandle->DangerousGetHandle().ToPointer(),
+			parameters,
+			(DELETE_SNAPSHOT_VHDSET_FLAG)Flags);
+
+		Parameters.ReleaseNative(false);
+		return apiResult;
+	}
+#endif
 
 	unsigned int VirtualDiskApi::DeleteVirtualDiskMetadata(
 		VirtualDiskSafeHandle^ VirtualDiskHandle,
@@ -296,6 +332,23 @@ namespace VirtualDiskInterop
 			MetaData = gcnew array<Byte>(0);
 		}
 
+		return apiResult;
+	}
+
+	unsigned int VirtualDiskApi::GetVirtualDiskOperationProgress(
+		VirtualDiskSafeHandle^ VirtualDiskHandle,
+		Overlapped^ overlapped,
+		[Out] VirtualDiskProgress% Progress)
+	{
+		Progress = VirtualDiskProgress();
+		VIRTUAL_DISK_PROGRESS* progresss = Progress.GetNative();
+		
+		unsigned int apiResult = ::GetVirtualDiskOperationProgress(
+			VirtualDiskHandle->DangerousGetHandle().ToPointer(),
+			overlapped != nullptr ? overlapped->NativeOverlapped : NULL,
+			NULL);
+
+		Progress.ReleaseNative(true);
 		return apiResult;
 	}
 

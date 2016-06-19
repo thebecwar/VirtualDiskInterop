@@ -38,10 +38,8 @@ namespace VirtualDiskInterop {
 			VirtualDiskSafeHandle^ VirtualDiskHandle,
 			CompactVirtualDiskFlags Flags,
 			CompactVirtualDiskParameters Parameters,
-			Overlapped^ overlapped)
-		{
-			return 0;
-		}
+			Overlapped^ overlapped);
+
 		static unsigned int CreateVirtualDisk(
 			VirtualDiskInterop::VirtualStorageType VirtualStorageType,
 			String^ Path,
@@ -57,10 +55,7 @@ namespace VirtualDiskInterop {
 		static unsigned int DeleteSnapshotVhdSet(
 			VirtualDiskSafeHandle^ VirtualDiskHandle,
 			DeleteSnapshotVhdsetParameters Parameters,
-			DeleteSnapshotVhdsetFlags Flags)
-		{
-			return 0;
-		}
+			DeleteSnapshotVhdsetFlags Flags);
 #endif
 		static unsigned int DeleteVirtualDiskMetadata(
 			VirtualDiskSafeHandle^ VirtualDiskHandle,
@@ -97,10 +92,7 @@ namespace VirtualDiskInterop {
 		static unsigned int GetVirtualDiskOperationProgress(
 			VirtualDiskSafeHandle^ VirtualDiskHandle,
 			Overlapped^ overlapped,
-			[Out] VirtualDiskProgress% Progress)
-		{
-			return 0;
-		}
+			[Out] VirtualDiskProgress% Progress);
 
 		static unsigned int GetVirtualDiskPhysicalPath(
 			VirtualDiskSafeHandle^ VirtualDiskHandle,

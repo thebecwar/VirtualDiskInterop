@@ -21,6 +21,15 @@ namespace VirtualDiskInterop
 		}
 	private:
 		Guid m_SnapshotId;
+	internal:
+		void PopulateNativeStruct(DELETE_SNAPSHOT_VHDSET_PARAMETERS* parameters)
+		{
+			parameters->Version1.SnapshotId = Helpers::ToGUID(this->m_SnapshotId);
+		}
+		void ReadNativeStruct(DELETE_SNAPSHOT_VHDSET_PARAMETERS* parameters)
+		{
+			this->m_SnapshotId = Helpers::FromGUID(parameters->Version1.SnapshotId);
+		}
 	};
 
 	public value class DeleteSnapshotVhdsetParameters
@@ -51,6 +60,43 @@ namespace VirtualDiskInterop
 	private:
 		DeleteSnapshotVhdsetVersions m_Version;
 		DeleteSnapshotVhdsetParametersVersion1 m_Version1;
+	internal:
+		DELETE_SNAPSHOT_VHDSET_PARAMETERS* m_NativeData = NULL;
+		DELETE_SNAPSHOT_VHDSET_PARAMETERS* GetNative()
+		{
+			if (this->m_NativeData)
+			{
+				delete this->m_NativeData;
+				this->m_NativeData = NULL;
+			}
+			this->m_NativeData = new DELETE_SNAPSHOT_VHDSET_PARAMETERS();
+			this->m_NativeData->Version = (DELETE_SNAPSHOT_VHDSET_VERSION)this->m_Version;
+			switch (this->m_Version)
+			{
+			case DeleteSnapshotVhdsetVersions::Version1:
+				this->m_Version1.PopulateNativeStruct(this->m_NativeData);
+				break;
+			}
+			return this->m_NativeData;
+		}
+		void ReleaseNative(bool updateData)
+		{
+			if (this->m_NativeData)
+			{
+				if (updateData)
+				{
+					this->m_Version = (DeleteSnapshotVhdsetVersions)this->m_NativeData->Version;
+					switch (this->m_Version)
+					{
+					case DeleteSnapshotVhdsetVersions::Version1:
+						this->m_Version1.ReadNativeStruct(this->m_NativeData);
+						break;
+					}
+				}
+				delete this->m_NativeData;
+				this->m_NativeData = NULL;
+			}
+		}
 	};
 #endif
 }

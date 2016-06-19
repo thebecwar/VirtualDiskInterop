@@ -44,5 +44,36 @@ namespace VirtualDiskInterop
 		unsigned int m_OperationStatus;
 		unsigned long long m_CurrentValue;
 		unsigned long long m_CompletionValue;
+	internal:
+		VIRTUAL_DISK_PROGRESS* m_NativeData = NULL;
+		VIRTUAL_DISK_PROGRESS* GetNative()
+		{
+			if (this->m_NativeData)
+			{
+				delete this->m_NativeData;
+				this->m_NativeData = NULL;
+			}
+			this->m_NativeData = new VIRTUAL_DISK_PROGRESS();
+			this->m_NativeData->OperationStatus = this->m_OperationStatus;
+			this->m_NativeData->CurrentValue = this->m_CurrentValue;
+			this->m_NativeData->CompletionValue = this->m_CompletionValue;
+			return this->m_NativeData;
+		}
+		void ReleaseNative(bool updateData)
+		{
+			if (this->m_NativeData)
+			{
+				if (updateData)
+				{
+					this->m_OperationStatus = this->m_NativeData->OperationStatus;
+					this->m_CurrentValue = this->m_NativeData->CurrentValue;
+					this->m_CompletionValue = this->m_NativeData->CompletionValue;
+				}
+
+				delete this->m_NativeData;
+				this->m_NativeData = NULL;
+			}
+		}
+
 	};
 }
