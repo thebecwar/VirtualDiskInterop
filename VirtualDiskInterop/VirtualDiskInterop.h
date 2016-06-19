@@ -156,10 +156,7 @@ namespace VirtualDiskInterop {
 		static unsigned int TakeSnapshotVhdSet(
 			VirtualDiskSafeHandle^ VirtualDiskHandle,
 			TakeSnapshotVhdsetParameters Parameters,
-			TakeSnapshotVhdsetFlags Flags)
-		{
-			return 0;
-		}
+			TakeSnapshotVhdsetFlags Flags);
 #endif
 
 		static property unsigned int BufferSize

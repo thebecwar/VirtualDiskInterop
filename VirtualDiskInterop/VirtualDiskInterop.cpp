@@ -591,4 +591,22 @@ namespace VirtualDiskInterop
 		return apiResult;
 	}
 
+#ifdef WIN10SUPPORT
+	unsigned int VirtualDiskApi::TakeSnapshotVhdSet(
+		VirtualDiskSafeHandle^ VirtualDiskHandle,
+		TakeSnapshotVhdsetParameters Parameters,
+		TakeSnapshotVhdsetFlags Flags)
+	{
+		TAKE_SNAPSHOT_VHDSET_PARAMETERS* parameters = Parameters.GetNative();
+
+		unsigned int apiResult = ::TakeSnapshotVhdSet(
+			VirtualDiskHandle->DangerousGetHandle().ToPointer(),
+			parameters,
+			(TAKE_SNAPSHOT_VHDSET_FLAG)Flags);
+		
+		Parameters.ReleaseNative(false);
+		return apiResult;
+	}
+#endif
+
 }
