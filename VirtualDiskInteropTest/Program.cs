@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 
 using VirtualDiskInterop;
+using System.Security.AccessControl;
 
 namespace VirtualDiskInteropTest
 {
@@ -19,50 +20,33 @@ namespace VirtualDiskInteropTest
 
             VirtualDiskSafeHandle diskHandle = new VirtualDiskSafeHandle();
 
-            string filename = @"";
+            string filename = @"C:\temp\test.vhdx";
             
             OpenVirtualDiskParameters readParameters = new OpenVirtualDiskParameters();
-            readParameters.Version = OpenVirtualDiskVersions.Version1;
+            readParameters.Version = OpenVirtualDiskVersions.Version2;
+            readParameters.Version2 = new OpenVirtualDiskParametersVersion2()
+            {
+                GetInfoOnly = false,
+                ReadOnly = false,
+                ResiliencyGuid = Guid.Empty,
+            };
             
             uint result = VirtualDiskApi.OpenVirtualDisk(storageType, 
                                                          filename, 
-                                                         VirtualDiskAccessMasks.All, 
+                                                         VirtualDiskAccessMasks.None, 
                                                          OpenVirtualDiskFlags.None, 
                                                          readParameters, 
                                                          diskHandle);
 
-            Guid customMetadata = Guid.NewGuid();
-            Guid[] metadataIds = null;
-            byte[] metaData = null;
+            RawSecurityDescriptor descriptor = new RawSecurityDescriptor("O:BAG:BAD:(A;;GA;;;WD)");
+            AttachVirtualDiskParameters parameters = new AttachVirtualDiskParameters();
+            parameters.Version = AttachVirtualDiskVersions.Version1;
 
-            result = VirtualDiskApi.EnumerateVirtualDiskMetadata(diskHandle, out metadataIds);
-
-            result = VirtualDiskApi.GetVirtualDiskMetadata(diskHandle, customMetadata, out metaData);
-
-            metaData = new byte[] { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05 };
-            result = VirtualDiskApi.SetVirtualDiskMetadata(diskHandle, customMetadata, metaData);
-
-            result = VirtualDiskApi.EnumerateVirtualDiskMetadata(diskHandle, out metadataIds);
-
-            result = VirtualDiskApi.GetVirtualDiskMetadata(diskHandle, customMetadata, out metaData);
-
-            result = VirtualDiskApi.DeleteVirtualDiskMetadata(diskHandle, customMetadata);
-
-            result = VirtualDiskApi.GetVirtualDiskMetadata(diskHandle, customMetadata, out metaData);
+            result = VirtualDiskApi.AttachVirtualDisk(diskHandle, descriptor, AttachVirtualDiskFlags.PermanentLifetime, 0, parameters, null);
 
 
 
-            string path = "";
-            result = VirtualDiskApi.GetVirtualDiskPhysicalPath(diskHandle, out path);
-
-            GetVirtualDiskInfo info = new GetVirtualDiskInfo();
-            info.Version = GetVirtualDiskInfoVersions.Size;
-
-            result = VirtualDiskApi.GetVirtualDiskInformation(diskHandle, ref info);
-
-
-
-            diskHandle.ReleaseHandle();
+            diskHandle.Close();
             diskHandle = null;
         }
     }

@@ -42,39 +42,39 @@ namespace VirtualDiskInterop
 				return this->m_WaitHandle;
 			}
 		}
-		property unsigned long Internal
+		property UIntPtr Internal
 		{
-			unsigned long get()
+			UIntPtr get()
 			{
 				if (this->m_Overlapped != NULL)
 				{
-					return this->m_Overlapped->Internal;
+					return UIntPtr(this->m_Overlapped->Internal);
 				}
-				return 0;
+				return UIntPtr::Zero;
 			}
-			void set(unsigned long value)
+			void set(UIntPtr value)
 			{
 				if (this->m_Overlapped != NULL)
 				{
-					this->m_Overlapped->Internal = value;
+					this->m_Overlapped->Internal = (ULONG_PTR)value.ToPointer();
 				}
 			}
 		}
-		property unsigned long InternalHigh
+		property UIntPtr InternalHigh
 		{
-			unsigned long get()
+			UIntPtr get()
 			{
 				if (this->m_Overlapped != NULL)
 				{
-					return this->m_Overlapped->InternalHigh;
+					return UIntPtr(this->m_Overlapped->InternalHigh);
 				}
-				return 0;
+				return UIntPtr::Zero;
 			}
-			void set(unsigned long value)
+			void set(UIntPtr value)
 			{
 				if (this->m_Overlapped != NULL)
 				{
-					this->m_Overlapped->InternalHigh = value;
+					this->m_Overlapped->InternalHigh = (ULONG_PTR)value.ToPointer();
 				}
 			}
 		}

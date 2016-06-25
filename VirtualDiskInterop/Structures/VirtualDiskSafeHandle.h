@@ -31,6 +31,7 @@ namespace VirtualDiskInterop
 			this->SetHandle(VirtualDiskHandle);
 		}
 		
+	protected:
 		// Inherited via SafeHandleMinusOneIsInvalid
 
 		///<summary>executes the code required to free the handle.</summary>

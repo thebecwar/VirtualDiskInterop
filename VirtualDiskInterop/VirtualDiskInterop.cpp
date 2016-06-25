@@ -69,6 +69,8 @@
 // Wrapper class
 #include "VirtualDiskInterop.h"
 
+#include <sddl.h>
+
 ///////////////////////////////////////////////////////////
 // Implementation of class members
 //////////////////////////////////////////////////////////
@@ -114,13 +116,19 @@ namespace VirtualDiskInterop
 		AttachVirtualDiskParameters Parameters,
 		Overlapped^ overlapped)
 	{
-		//TODO: Security Descriptor
-
+		PSECURITY_DESCRIPTOR securityDescriptor = NULL;
+		if (SecurityDescriptor != nullptr)
+		{
+			array<Byte>^ rawSecurityDescriptorData = gcnew array<Byte>(SecurityDescriptor->BinaryLength);
+			SecurityDescriptor->GetBinaryForm(rawSecurityDescriptorData, 0);
+			pin_ptr<BYTE> ptr = &rawSecurityDescriptorData[0];
+			securityDescriptor = (PSECURITY_DESCRIPTOR)ptr;
+		}
 		ATTACH_VIRTUAL_DISK_PARAMETERS* parameters = Parameters.GetNative();
 
 		unsigned int apiResult = ::AttachVirtualDisk(
 			VirtualDiskHandle->DangerousGetHandle().ToPointer(),
-			NULL,
+			securityDescriptor,
 			(ATTACH_VIRTUAL_DISK_FLAG)Flags,
 			(ULONG)ProviderSpecificFlags,
 			parameters,
@@ -165,11 +173,18 @@ namespace VirtualDiskInterop
 		Overlapped^ overlapped,
 		VirtualDiskSafeHandle^ VirtualDiskHandle)
 	{
+		PSECURITY_DESCRIPTOR securityDescriptor = NULL;
+		if (SecurityDescriptor != nullptr)
+		{
+			array<Byte>^ rawSecurityDescriptorData = gcnew array<Byte>(SecurityDescriptor->BinaryLength);
+			SecurityDescriptor->GetBinaryForm(rawSecurityDescriptorData, 0);
+			pin_ptr<BYTE> ptr = &rawSecurityDescriptorData[0];
+			securityDescriptor = (PSECURITY_DESCRIPTOR)ptr;
+		}
+
 		VIRTUAL_STORAGE_TYPE* storageType = VirtualStorageType.GetNative();
 		pin_ptr<const WCHAR> pszPath = PtrToStringChars(Path);
 		
-		// TODO: Security Descriptor
-
 		CREATE_VIRTUAL_DISK_PARAMETERS* parameters = Parameters.GetNative();
 		
 		HANDLE tmpHandle = INVALID_HANDLE_VALUE;
@@ -178,7 +193,7 @@ namespace VirtualDiskInterop
 			storageType,
 			pszPath,
 			(VIRTUAL_DISK_ACCESS_MASK)VirtualDiskAccessMask,
-			NULL,
+			securityDescriptor,
 			(CREATE_VIRTUAL_DISK_FLAG)Flags,
 			ProviderSpecificFlags,
 			parameters,
