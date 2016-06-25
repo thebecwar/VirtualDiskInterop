@@ -370,13 +370,13 @@ namespace VirtualDiskInterop
 				this->m_VirtualStorageType = value;
 			}
 		}
-		property unsigned long ProviderSubtype
+		property ProviderSpecificSubtypes ProviderSubtype
 		{
-			unsigned long get()
+			ProviderSpecificSubtypes get()
 			{
 				return this->m_ProviderSubtype;
 			}
-			void set(unsigned long value)
+			void set(ProviderSpecificSubtypes value)
 			{
 				this->m_ProviderSubtype = value;
 			}
@@ -479,7 +479,7 @@ namespace VirtualDiskInterop
 		Guid m_ParentIdentifier;
 		unsigned long m_ParentTimestamp;
 		VirtualDiskInterop::VirtualStorageType m_VirtualStorageType;
-		unsigned long m_ProviderSubtype;
+		ProviderSpecificSubtypes m_ProviderSubtype;
 		bool m_Is4kAligned;
 		bool m_IsLoaded;
 		GetVirtualDiskInfoPhysicalDisk m_PhysicalDisk;
@@ -533,7 +533,7 @@ namespace VirtualDiskInterop
 					this->m_NativeData->VirtualStorageType.VendorId = Helpers::ToGUID(this->VirtualStorageType.VendorId);
 					break;
 				case GetVirtualDiskInfoVersions::ProviderSubtype:
-					this->m_NativeData->ProviderSubtype = this->m_ProviderSubtype;
+					this->m_NativeData->ProviderSubtype = (ULONG)this->m_ProviderSubtype;
 					break;
 				case GetVirtualDiskInfoVersions::Is4kAligned:
 					this->m_NativeData->Is4kAligned = (BOOL)this->m_Is4kAligned;
@@ -589,7 +589,7 @@ namespace VirtualDiskInterop
 						this->m_VirtualStorageType.VendorId = Helpers::FromGUID(this->m_NativeData->VirtualStorageType.VendorId);
 						break;
 					case GetVirtualDiskInfoVersions::ProviderSubtype:
-						this->m_ProviderSubtype = this->m_NativeData->ProviderSubtype;
+						this->m_ProviderSubtype = (ProviderSpecificSubtypes)this->m_NativeData->ProviderSubtype;
 						break;
 					case GetVirtualDiskInfoVersions::Is4kAligned:
 						this->m_Is4kAligned = this->m_NativeData->Is4kAligned != 0;

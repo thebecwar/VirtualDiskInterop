@@ -579,6 +579,10 @@ namespace VirtualDiskInterop
 
 	public value class CreateVirtualDiskParameters
 	{
+		// constants
+	public:
+		static const unsigned long DefaultBlockSize = CREATE_VIRTUAL_DISK_PARAMETERS_DEFAULT_BLOCK_SIZE;
+		static const unsigned long DefaultSectorSize = CREATE_VIRTUAL_DISK_PARAMETERS_DEFAULT_SECTOR_SIZE;
 	public:
 		property CreateVirtualDiskVersions Version
 		{

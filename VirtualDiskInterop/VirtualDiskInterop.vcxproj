@@ -156,6 +156,7 @@
     <ClInclude Include="Enumerations\ModifyVhdsetVersions.h" />
     <ClInclude Include="Enumerations\OpenVirtualDiskFlags.h" />
     <ClInclude Include="Enumerations\OpenVirtualDiskVersions.h" />
+    <ClInclude Include="Enumerations\ProviderSpecificSubtypes.h" />
     <ClInclude Include="Enumerations\QueryChangesVirtualDiskFlags.h" />
     <ClInclude Include="Enumerations\ResizeVirtualDiskFlags.h" />
     <ClInclude Include="Enumerations\ResizeVirtualDiskVersions.h" />
